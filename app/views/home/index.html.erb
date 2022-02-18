@@ -1,0 +1,23 @@
+<h1>Home for <%= current_user.name %></h1>
+
+<h2>Users list from API</h2>
+<ul>
+  <% @users.each do |user| %>
+    <li><%= user['name'] %> (email='<%= user['email'] %>') (api_key='<%= user['id'] %>')</li>
+  <% end %>
+</ul>
+
+<%#= form_for(user_session_path) do |f| %>
+<div class="field">
+    <%#= f.label :sklll %><Br/>
+    <%#= f.text_field :skill %>
+</div>
+
+
+<%#= f.submit "Add Skill  / Hit Protected API Endpoint" %>
+
+<%# end %>
+
+<hr>
+
+<%= button_to "Logout", destroy_user_session_path, method: :delete  %>
