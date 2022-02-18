@@ -6,7 +6,7 @@ class HomeController < ApplicationController
 
   def index
 
-    uri = URI('http://0.0.0.0:5000/api/v1/users/')
+    uri = URI('http://host.docker.internal:5000/api/v1/users/')
     req = Net::HTTP::Get.new(uri)
     req['X-API-Key'] = 'a'
     req['X-Auth-Token'] = 'b'
