@@ -1,6 +1,6 @@
 # ls-auth-ui #
 
-## Run with docker-compose ##
+## Run with docker-compose (for local development) ##
 
 * git clone the repo
 * `docker-compose build`
