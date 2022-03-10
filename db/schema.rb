@@ -10,9 +10,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_02_17_060552) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_10_063355) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "authentications", force: :cascade do |t|
+    t.bigint "credential_id"
+    t.bigint "authenticator_id"
+    t.string "status", default: "invited"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["authenticator_id"], name: "index_authentications_on_authenticator_id"
+    t.index ["credential_id"], name: "index_authentications_on_credential_id"
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "credentials", force: :cascade do |t|
+    t.bigint "skill_id"
+    t.bigint "holder_id"
+    t.string "status", default: "draft"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["holder_id"], name: "index_credentials_on_holder_id"
+    t.index ["skill_id"], name: "index_credentials_on_skill_id"
+  end
+
+  create_table "skills", force: :cascade do |t|
+    t.string "name"
+    t.string "skill_type"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -28,4 +62,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_17_060552) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "authentications", "contacts", column: "authenticator_id"
+  add_foreign_key "credentials", "contacts", column: "holder_id"
 end
