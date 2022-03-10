@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'net/http'
-
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
@@ -13,29 +11,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    Rails.logger.info "\n\nCreating user in ls-auth-ui\n"
     super
     create_user_in_api
   end
 
   def create_user_in_api
-    Rails.logger.info "\n\nCalling ls-auth-api to create user in API, before state of user=\n#{current_user.inspect})\n"
-    uri = URI('http://host.docker.internal:5000/api/v1/users/')
-    res = Net::HTTP.start(uri.host, uri.port) do |http|
-      req = Net::HTTP::Post.new(uri)
-      req['Content-Type'] = 'application/json'
-      req['X-API-Key'] = 'a'
-      req['X-Auth-Token'] = 'b'
-      req.body = {name: current_user.name, email: current_user.email}.to_json
-      http.request(req)
+    created_user = ::Commands::CreateUser.do(name: current_user.name, email: current_user.email)
+    api_id = created_user.fetch('id', nil)
+    if api_id
+      current_user.update(api_id: api_id)
     end
-
-    created_user = JSON.parse(res.body)
-    Rails.logger.info "\nResponse from API: #{created_user}\n"
-    Rails.logger.info "\nUpdate ls-auth-ui user with api_id #{created_user['id']}:\n"
-    current_user.update(api_id: created_user['id'])
-
-    Rails.logger.info "\nAfter calling API, current state of user=\n#{current_user.inspect}\n"
   end
 
   # GET /resource/edit

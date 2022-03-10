@@ -1,21 +1,12 @@
-require 'net/http'
+## frozen_string_literal: true
 
 class HomeController < ApplicationController
 
   before_action :authenticate_user!
 
   def index
-
-    uri = URI('http://host.docker.internal:5000/api/v1/users/')
-    req = Net::HTTP::Get.new(uri)
-    req['X-API-Key'] = 'a'
-    req['X-Auth-Token'] = 'b'
-
-    res = Net::HTTP.start(uri.hostname, uri.port) {|http|
-      http.request(req)
-    }
-
-    @users = JSON.parse(res.body)['users']
+    json = ::Queries::GetUsers.do
+    @users = json.fetch('users', [])
     Rails.logger.warn("@users=#{@users}")
   end
 end
