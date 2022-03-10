@@ -8,7 +8,7 @@
 
 <ul>
     <% @invited_authentications.each do |authentication| %>
-        <li style="padding-bottom: 1em;">
+        <li>
             <% credential = authentication.credential %>
             <b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
             <% if credential.skill.description.present? %>
@@ -31,7 +31,7 @@
 
 <ul>
 <% @accepted_authentications.each do |authentication| %>
-    <li style="padding-bottom: 1em;">
+    <li>
         <% credential = authentication.credential %>
         <b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
         <% if credential.skill.description.present? %>
@@ -50,7 +50,7 @@
 
 <ul>
     <% @refused_authentications.each do |authentication| %>
-        <li style="padding-bottom: 1em;">
+        <li>
             <% credential = authentication.credential %>
             <b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
             <% if credential.skill.description.present? %>

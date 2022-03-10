@@ -13,3 +13,6 @@
  *= require_tree .
  *= require_self
  */
+.field { padding-bottom: 1em; }
+li { padding-bottom: 1em; }
+ul.compressed li { padding-bottom: 0; }

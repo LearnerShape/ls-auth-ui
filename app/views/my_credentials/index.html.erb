@@ -4,13 +4,13 @@
 
 <ul>
 <% @my_credentials.each do |credential| %>
-    <li style="padding-bottom: 1em;"><b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
+    <li><b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
         <% if credential.skill.description.present? %>
             <b>Description:</b> <%= credential.skill.description %><br/>
         <% end %>
         <b>Added:</b> <%= credential.created_at.strftime("%-d %B %Y:%k:%M") %><br/>
         <b>Authentications:</b>
-    <ul>
+    <ul class="compressed">
         <% credential.authentications.order(:status).each do |authentication| %>
             <li><%= authentication.authenticator.email %> | <%= authentication.status %></li>
         <% end %>
