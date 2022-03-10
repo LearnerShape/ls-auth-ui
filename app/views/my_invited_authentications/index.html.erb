@@ -1,13 +1,52 @@
 [<%= link_to "Home", root_path %>]
 
-<h1> My Invited Authentications</h1>
+<h1> My Invited Authentications (<%= @invited_authentications.count %>)</h1>
+
+<% if @invited_authentications.empty? %>
+    <p>No authentications awaiting acceptance or refusal</p>
+<% end %>
 
 <ul>
-    <% @my_authentications.each do |authentication| %>
+    <% @invited_authentications.each do |authentication| %>
         <li>
             <% credential = authentication.credential %>
             Skill: <%= credential.skill.name %> | <%=  credential.skill.skill_type %> | <%= credential.skill.notes %><br/>
-            Claimant: <%= credential.holder.email %>
+            Claimant: <%= credential.holder.email %><br/>
+            [ <%= link_to "Accept", accept_my_invited_authentication_path(authentication) %> ]
+            [ <%= link_to "Refuse", refuse_my_invited_authentication_path(authentication) %> ]
+        </li>
+    <% end %>
+</ul>
+
+<h2>Already accepted:</h2>
+
+<% if @accepted_authentications.empty? %>
+    <p>None yet</p>
+<% end %>
+
+
+<ul>
+<% @accepted_authentications.each do |authentication| %>
+    <li>
+        <% credential = authentication.credential %>
+        Skill: <%= credential.skill.name %> | <%=  credential.skill.skill_type %> | <%= credential.skill.notes %><br/>
+        Claimant: <%= credential.holder.email %><br/>
+    </li>
+<% end %>
+</ul>
+
+<h2>Already refused:</h2>
+
+<% if @refused_authentications.empty? %>
+    <p>None yet</p>
+<% end %>
+
+<ul>
+    <% @refused_authentications.each do |authentication| %>
+        <li>
+            <% credential = authentication.credential %>
+            Skill: <%= credential.skill.name %> | <%=  credential.skill.skill_type %> | <%= credential.skill.notes %><br/>
+            Claimant: <%= credential.holder.email %><br/>
         </li>
     <% end %>
 </ul>

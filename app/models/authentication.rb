@@ -4,8 +4,13 @@ class Authentication < ApplicationRecord
 
   scope :is_invited, -> { where(status: 'invited') }
   scope :is_accepted, -> { where(status: 'accepted') }
+  scope :is_refused, -> { where(status: 'refused') }
 
   def mark_accepted
     update(status: 'accepted')
+  end
+
+  def mark_refused
+    update(status: 'refused')
   end
 end
