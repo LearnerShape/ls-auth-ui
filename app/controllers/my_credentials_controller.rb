@@ -11,7 +11,7 @@ class MyCredentialsController < ApplicationController
 
     skill = Skill.create(name: params[:name],
                          skill_type: params[:type],
-                         notes: params[:notes])
+                         description: params[:description])
 
     credential = Credential.create(holder: holder, skill: skill)
 

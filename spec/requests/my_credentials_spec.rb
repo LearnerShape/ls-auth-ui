@@ -7,7 +7,7 @@ RSpec.describe "My credentials", type: :request do
   it "creates a credential" do
     post "/my_credentials", params: { name: 'name',
                                       type: 'GeneralCredential',
-                                      notes: 'notes',
+                                      description: 'description',
                                       authenticators: 'beth@example.com\nbodil@example.com'}
     expect(Contact.count).to eq(3)
 
@@ -15,7 +15,7 @@ RSpec.describe "My credentials", type: :request do
     skill = Skill.first
     expect(skill.name).to eq('name')
     expect(skill.skill_type).to eq('GeneralCredential')
-    expect(skill.notes).to eq('notes')
+    expect(skill.description).to eq('description')
 
     expect(Credential.count).to eq(1)
     credential = Credential.first

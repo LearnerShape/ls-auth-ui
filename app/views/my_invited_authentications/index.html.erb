@@ -8,13 +8,17 @@
 
 <ul>
     <% @invited_authentications.each do |authentication| %>
-        <li>
+        <li style="padding-bottom: 1em;">
             <% credential = authentication.credential %>
-            Skill: <%= credential.skill.name %> | <%=  credential.skill.skill_type %> | <%= credential.skill.notes %><br/>
-            Claimant: <%= credential.holder.email %><br/>
+            <b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
+            <% if credential.skill.description.present? %>
+                <b>Description:</b> <%= credential.skill.description %><br/>
+            <% end %>
+            <b>Added:</b> <%= credential.created_at.strftime("%-d %B %Y:%k:%M") %>
+            <b>Claimant:</b> <%= credential.holder.email %><br/>
             [ <%= link_to "Accept", accept_my_invited_authentication_path(authentication) %> ]
             [ <%= link_to "Refuse", refuse_my_invited_authentication_path(authentication) %> ]
-        </li>
+        <br/></li>
     <% end %>
 </ul>
 
@@ -27,10 +31,13 @@
 
 <ul>
 <% @accepted_authentications.each do |authentication| %>
-    <li>
+    <li style="padding-bottom: 1em;">
         <% credential = authentication.credential %>
-        Skill: <%= credential.skill.name %> | <%=  credential.skill.skill_type %> | <%= credential.skill.notes %><br/>
-        Claimant: <%= credential.holder.email %><br/>
+        <b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
+        <% if credential.skill.description.present? %>
+            <b>Description:</b> <%= credential.skill.description %><br/>
+        <% end %>
+        <b>Claimant:</b> <%= credential.holder.email %>
     </li>
 <% end %>
 </ul>
@@ -43,10 +50,13 @@
 
 <ul>
     <% @refused_authentications.each do |authentication| %>
-        <li>
+        <li style="padding-bottom: 1em;">
             <% credential = authentication.credential %>
-            Skill: <%= credential.skill.name %> | <%=  credential.skill.skill_type %> | <%= credential.skill.notes %><br/>
-            Claimant: <%= credential.holder.email %><br/>
+            <b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
+            <% if credential.skill.description.present? %>
+                <b>Description:</b> <%= credential.skill.description %><br/>
+            <% end %>
+            <b>Claimant:</b> <%= credential.holder.email %>
         </li>
     <% end %>
 </ul>
