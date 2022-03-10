@@ -32,6 +32,6 @@ class MyCredentialsController < ApplicationController
 
   def index
     holder = Contact.find_or_create_by(email: current_user.email)
-    @my_credentials = Credential.where(holder: holder).order(:status)
+    @my_credentials = Credential.where(holder: holder).is_authenticated
   end
 end

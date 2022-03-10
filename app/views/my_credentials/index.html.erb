@@ -4,7 +4,7 @@
 
 <ul>
 <% @my_credentials.each do |credential| %>
-    <li style="padding-bottom: 1em;"><b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>) (<b>status:</b> <%=  credential.status %>)<br/>
+    <li style="padding-bottom: 1em;"><b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
         <% if credential.skill.description.present? %>
             <b>Description:</b> <%= credential.skill.description %><br/>
         <% end %>
