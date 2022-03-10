@@ -4,22 +4,11 @@
     <li>My Credentials</li>
     <ul>
         <li><%= link_to "Create New Credential", new_my_credential_path %></li>
-        <li>List My Credentials</li>
+        <li><%= link_to "List My Credentials", my_credentials_path %>
     </ul>
     <li>Credentials to Authenticate</li>
-    <li>Credentials to Create for Others</li>
+    <li style="color: #CCC;">Credentials to Create for Others</li>
 </ul>
-
-<%#= form_for(user_session_path) do |f| %>
-<div class="field">
-    <%#= f.label :sklll %><Br/>
-    <%#= f.text_field :skill %>
-</div>
-
-
-<%#= f.submit "Add Skill  / Hit Protected API Endpoint" %>
-
-<%# end %>
 
 <hr>
 
