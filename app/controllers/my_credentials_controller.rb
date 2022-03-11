@@ -4,7 +4,7 @@ class MyCredentialsController < ApplicationController
 
   def create
     holder = Contact.find_or_create_by(email: current_user.email)
-    authenticator_emails = params[:authenticators].split('\n')
+    authenticator_emails = params[:authenticators].split("\n")
     authenticators = authenticator_emails.map do |email|
       Contact.find_or_create_by(email: email)
     end

@@ -10,7 +10,11 @@
     <ul>
         <li><%= link_to "List My Invited Authentications (#{@invited_authentications_count})", my_invited_authentications_path %>
     </ul>
-    <li style="color: #CCC;">Credentials to Create for Others</li>
+    <li>Credentials for Others</li>
+    <ul>
+        <li><%= link_to "Create New Credential for Others", new_credentials_for_other_path %></li>
+        <li><%= link_to "List Credentials for Others", "." %></li>
+    </ul>
 </ul>
 
 <hr>
