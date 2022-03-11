@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_10_124736) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_11_014858) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_10_124736) do
     t.index ["skill_id"], name: "index_credentials_on_skill_id"
   end
 
+  create_table "programs", force: :cascade do |t|
+    t.bigint "creator_id"
+    t.bigint "skill_id"
+    t.string "status", default: "created"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_programs_on_creator_id"
+    t.index ["skill_id"], name: "index_programs_on_skill_id"
+  end
+
   create_table "skills", force: :cascade do |t|
     t.string "name"
     t.string "skill_type"
@@ -64,4 +74,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_10_124736) do
 
   add_foreign_key "authentications", "contacts", column: "authenticator_id"
   add_foreign_key "credentials", "contacts", column: "holder_id"
+  add_foreign_key "programs", "contacts", column: "creator_id"
 end

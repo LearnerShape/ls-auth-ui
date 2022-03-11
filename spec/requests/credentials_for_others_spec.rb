@@ -32,5 +32,11 @@ RSpec.describe "Credentials for others", type: :request do
     expect(authentications.map(&:credential)).to match_array(credentials)
     expect(authentications.map(&:authenticator).uniq).to eq([tutor])
     expect(authentications.map(&:status).uniq).to eq(['accepted'])
+
+    expect(Program.count).to eq(1)
+    program = Program.first
+    expect(program.creator).to eq(tutor)
+    expect(program.skill).to eq(skill)
+    expect(program.credentials.map(&:holder)).to match_array(participants)
   end
 end

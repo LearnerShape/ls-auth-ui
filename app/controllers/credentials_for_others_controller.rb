@@ -12,6 +12,8 @@ class CredentialsForOthersController < ApplicationController
                          skill_type: params[:type],
                          description: params[:description])
 
+    Program.create(creator: creator, skill: skill)
+
     credentials = participants.map do |participant|
       Credential.create(holder: participant, skill: skill)
     end
@@ -28,5 +30,7 @@ class CredentialsForOthersController < ApplicationController
   end
 
   def index
+    creator = Contact.find_or_create_by(email: current_user.email)
+    @programs = Program.where(creator: creator)
   end
 end
