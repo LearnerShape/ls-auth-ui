@@ -6,11 +6,15 @@ class PublicView < ApplicationRecord
   scope :is_active, -> { where(status: 'active') }
 
   def credential_skill_names_for_index
-    Credential.where(id: credentials).is_authenticated.map(&:skill).map(&:name)
+    credentials.map do |id|
+      Credential.where(id: id).is_authenticated.map(&:skill).map(&:name)[0]
+    end.compact
   end
 
   def credentials_for_display
-    Credential.where(id: credentials).is_authenticated
+    credentials.map do |id|
+      Credential.where(id: id).is_authenticated.first
+    end.compact
   end
 
   private

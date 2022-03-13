@@ -4,9 +4,9 @@
 
 <ul>
     <% @public_views.each do |public_view| %>
-        <li><b>Link:</b> /public_views/<%=  public_view.uuid %> (<b>status:</b> <%= public_view.status %>)<br/>
+        <li><b>Link:</b> <%= link_to "/public_views/#{public_view.uuid}", public_view_path(id: public_view.uuid) %> (<b>status:</b> <%= public_view.status %>)<br/>
             <b>Credentials:</b>
-            <ul>
+            <ul class="compressed">
                 <% public_view.credential_skill_names_for_index.each do |name| %>
                     <li><%= name  %></li>
                 <% end %>
