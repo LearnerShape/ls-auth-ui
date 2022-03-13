@@ -26,6 +26,6 @@ class PublicViewsController < ApplicationController
   end
 
   def build_credentials_list(credentials)
-    Hash[credentials.map { |k, v| [k.to_i, v.to_i] }].sort_by { |_, v| v }.to_h.keys
+    Hash[credentials.map { |k, v| [k.to_i, v.to_i] }].select { |_, v| v.positive? }.sort_by { |_, v| v }.to_h.keys
   end
 end

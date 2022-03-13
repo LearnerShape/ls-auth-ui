@@ -27,6 +27,7 @@ RSpec.describe "Public views", type: :request do
 
     post "/public_views", params: { credentials_to_add: {
                                       @credential3.id => "1",
+                                      @credential2.id => "",
                                       @credential1.id => "2"
                                     }
                                   }
@@ -50,5 +51,4 @@ RSpec.describe "Public views", type: :request do
     response = get "/public_views/#{public_view.uuid}"
     expect(response).to be(404)
   end
-
 end
