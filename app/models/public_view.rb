@@ -3,8 +3,14 @@ class PublicView < ApplicationRecord
 
   before_create :set_uuid
 
+  scope :is_active, -> { where(status: 'active') }
+
   def credential_skill_names_for_index
-    Credential.where(id: credentials).map(&:skill).map(&:name)
+    Credential.where(id: credentials).is_authenticated.map(&:skill).map(&:name)
+  end
+
+  def credentials_for_display
+    Credential.where(id: credentials).is_authenticated
   end
 
   private

@@ -16,7 +16,13 @@ class PublicViewsController < ApplicationController
     @public_views = PublicView.where(owner: holder)
   end
 
+
+  skip_before_action :authenticate_user!, only: [:show]
+
   def show
+    @public_view = PublicView.where(uuid: params[:id]).is_active.first
+    render status: 404 if @public_view.blank?
+    @credentials = @public_view.try(:credentials_for_display)
   end
 
   def build_credentials_list(credentials)

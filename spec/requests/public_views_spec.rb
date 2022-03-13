@@ -39,8 +39,16 @@ RSpec.describe "Public views", type: :request do
     expect(public_view.uuid).not_to be_blank
   end
 
-  # it "can view a created public view without logging in" do
-  #   public_view = PublicView.create(credentials: [@credential3.id, @credential1.id])
-  #   get "/public_views/#{public_view.uuid}"
-  # end
+  it "can view a created public view without logging in" do
+    public_view = PublicView.create(credentials: [@credential3.id, @credential1.id], owner: @claimant)
+    response = get "/public_views/#{public_view.uuid}"
+    expect(response).not_to redirect_to(new_user_session_path)
+    expect(response).not_to be(404)
+  end
+  it "cannot view an inactive created public view" do
+    public_view = PublicView.create(credentials: [@credential3.id, @credential1.id], owner: @claimant, status: "inactive")
+    response = get "/public_views/#{public_view.uuid}"
+    expect(response).to be(404)
+  end
+
 end
