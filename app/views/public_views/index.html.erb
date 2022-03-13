@@ -1,0 +1,16 @@
+[<%= link_to "Home", root_path %>]
+
+<h1>Public Views</h1>
+
+<ul>
+    <% @public_views.each do |public_view| %>
+        <li><b>Link:</b> /public_views/<%=  public_view.uuid %> (<b>status:</b> <%= public_view.status %>)<br/>
+            <b>Credentials:</b>
+            <ul>
+                <% public_view.credential_skill_names_for_index.each do |name| %>
+                    <li><%= name  %></li>
+                <% end %>
+            </ul>
+        </li>
+    <% end %>
+</ul>

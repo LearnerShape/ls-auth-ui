@@ -9,4 +9,5 @@ Rails.application.routes.draw do
       get 'refuse'
     end
   end
+  resources :public_views, only: [:new, :create, :index, :show]
 end

@@ -1,0 +1,29 @@
+[<%= link_to "Home", root_path %>]
+
+<h1>Create Public View</h1>
+
+<p>In the input box next to the credential you want to include, put a number for what ordering you want the credentials to appear in.</p>
+
+<p>For instance, if you have credential1 / credential2 / credential3, and you want a public view with credential3 followed by credential1, put a "1" beside credential3 and a "2" beside credential1, and leave credential2 blank.</p>
+
+<%= form_with url: public_views_path do |form| %>
+    <%=  form.fields_for :credentials_to_add do |form| %>
+<ul>
+    <% @my_credentials.each do |credential| %>
+        <li><%= form.text_field credential.id, { size: "4" } %><b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
+            <% if credential.skill.description.present? %>
+                <b>Description:</b> <%= credential.skill.description %><br/>
+            <% end %>
+            <b>Added:</b> <%= credential.created_at.strftime("%-d %B %Y:%k:%M") %><br/>
+            <b>Authentications:</b>
+            <ul class="compressed">
+                <% credential.authentications.order(:status).each do |authentication| %>
+                    <li><%= authentication.authenticator.email %> | <%= authentication.status %></li>
+                <% end %>
+            </ul></li>
+    <% end %>
+</ul>
+<% end %>
+<%=  form.submit "Create" %>
+
+<% end %>

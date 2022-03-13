@@ -10,6 +10,11 @@
     <ul>
         <li><%= link_to "List My Invited Authentications (#{@invited_authentications_count})", my_invited_authentications_path %>
     </ul>
+    <li>Public Views</li>
+    <ul>
+        <li><%= link_to "Create Public View", new_public_view_path %></li>
+        <li><%= link_to "List My Public Views", public_views_path %></li>
+    </ul>
     <li>Credentials for Others</li>
     <ul>
         <li><%= link_to "Create New Credential for Others", new_credentials_for_other_path %></li>

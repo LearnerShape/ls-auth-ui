@@ -1,8 +1,4 @@
-## frozen_string_literal: true
-
 class HomeController < ApplicationController
-
-  before_action :authenticate_user!
 
   def index
     authenticator = Contact.find_or_create_by(email: current_user.email)
