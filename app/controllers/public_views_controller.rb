@@ -16,6 +16,17 @@ class PublicViewsController < ApplicationController
     @public_views = PublicView.where(owner: holder)
   end
 
+  def mark_active
+    public_view = PublicView.where(id: params[:id]).first
+    public_view.try(:mark_active)
+    redirect_to action: :index
+  end
+
+  def mark_inactive
+    public_view = PublicView.where(id: params[:id]).first
+    public_view.try(:mark_inactive)
+    redirect_to action: :index
+  end
 
   skip_before_action :authenticate_user!, only: [:show]
 

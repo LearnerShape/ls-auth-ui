@@ -9,5 +9,10 @@ Rails.application.routes.draw do
       get 'refuse'
     end
   end
-  resources :public_views, only: [:new, :create, :index, :show]
+  resources :public_views, only: [:new, :create, :index, :show] do
+    member do
+      get 'mark_inactive'
+      get 'mark_active'
+    end
+  end
 end

@@ -11,6 +11,11 @@
                     <li><%= name  %></li>
                 <% end %>
             </ul>
+            <% if public_view.active? %>
+                [ <%= link_to "Mark inactive", mark_inactive_public_view_path(public_view) %>]
+            <% else %>
+                [ <%= link_to "Mark active", mark_active_public_view_path(public_view) %>]
+            <% end %>
         </li>
     <% end %>
 </ul>

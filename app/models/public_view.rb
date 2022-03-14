@@ -4,6 +4,7 @@ class PublicView < ApplicationRecord
   before_create :set_uuid
 
   scope :is_active, -> { where(status: 'active') }
+  scope :is_inactive, -> { where(status: 'inactive') }
 
   def credential_skill_names_for_index
     credentials.map do |id|
@@ -17,6 +18,17 @@ class PublicView < ApplicationRecord
     end.compact
   end
 
+  def active?
+    status == 'active'
+  end
+
+  def mark_inactive
+    update(status: 'inactive')
+  end
+
+  def mark_active
+    update(status: 'active')
+  end
   private
 
   def set_uuid
