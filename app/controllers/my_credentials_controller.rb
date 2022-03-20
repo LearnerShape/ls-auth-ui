@@ -13,16 +13,12 @@ class MyCredentialsController < ApplicationController
                          skill_type: params[:type],
                          description: params[:description])
 
-    # returns e.g.
-    # {"author_id"=>"3e330438-782d-49c6-adb8-71ab291b778f", "id"=>"a4c15975-a3ce-438b-adf4-d2fdf4cd9b42", "skill_details"=>{"name"=>"testing", "subject"=>"testing description"}, "skill_type"=>"GeneralCredential"}
     created_skill = ::Commands::CreateSkill.do(user_id: current_user.api_id,
                                                skill_name: skill.name,
                                                skill_type: skill.skill_type,
                                                skill_description: skill.description)
     api_id = created_skill.fetch('id', nil)
-    if api_id
-      skill.update(api_id: api_id)
-    end
+    skill.update(api_id: api_id) if api_id
 
     credential = Credential.create(holder: holder, skill: skill)
 
@@ -30,7 +26,13 @@ class MyCredentialsController < ApplicationController
                                                   authenticator: holder)
     holder_authentication.mark_accepted
 
-    # response_from_api = ::Commands::CreateCredential.do(user_id: current_user.api_id)
+    if skill.api_id
+      created_credential = ::Commands::CreateCredential.do(holder: current_user.api_id,
+                                                           skill: skill.api_id,
+                                                           issuer: current_user.api_id)
+      api_id = created_credential.fetch('id', nil)
+      credential.update(api_id: api_id) if api_id
+    end
 
     authenticators.each do |authenticator|
       Authentication.create(credential: credential,
