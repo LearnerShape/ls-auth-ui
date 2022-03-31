@@ -10,6 +10,7 @@ class MyInvitedAuthenticationsController < ApplicationController
   def accept
     authentication = Authentication.find(params[:id])
     authentication.mark_accepted
+    ::Commands::UpdateCredential.accept(id: authentication.api_id)
 
     # Since the credential is already self-authenticated,
     # we shouldn't need to do this.
@@ -21,6 +22,8 @@ class MyInvitedAuthenticationsController < ApplicationController
   def refuse
     authentication = Authentication.find(params[:id])
     authentication.mark_refused
+    ::Commands::UpdateCredential.refuse(id: authentication.api_id)
+
     redirect_to action: :index
   end
 end

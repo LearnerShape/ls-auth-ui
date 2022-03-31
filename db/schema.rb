@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_20_120816) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_24_042203) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_20_120816) do
     t.string "status", default: "invited"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "api_id"
     t.index ["authenticator_id"], name: "index_authentications_on_authenticator_id"
     t.index ["credential_id"], name: "index_authentications_on_credential_id"
   end
@@ -36,7 +37,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_20_120816) do
     t.string "status", default: "draft"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "api_id"
     t.index ["holder_id"], name: "index_credentials_on_holder_id"
     t.index ["skill_id"], name: "index_credentials_on_skill_id"
   end

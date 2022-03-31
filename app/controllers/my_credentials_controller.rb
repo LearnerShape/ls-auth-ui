@@ -29,14 +29,21 @@ class MyCredentialsController < ApplicationController
     if skill.api_id
       created_credential = ::Commands::CreateCredential.do(holder: current_user.api_id,
                                                            skill: skill.api_id,
-                                                           issuer: current_user.api_id)
+                                                           issuer: current_user.api_id,
+                                                           status: 'issued')
       api_id = created_credential.fetch('id', nil)
-      credential.update(api_id: api_id) if api_id
+      holder_authentication.update(api_id: api_id) if api_id
     end
 
     authenticators.each do |authenticator|
-      Authentication.create(credential: credential,
-                            authenticator: authenticator)
+      authentication = Authentication.create(credential: credential,
+                                             authenticator: authenticator)
+      created_credential = ::Commands::CreateCredential.do(holder: current_user.api_id,
+                                                           skill: skill.api_id,
+                                                           issuer: User.where(email: authenticator.email).first.api_id,
+                                                           status: 'requested')
+      api_id = created_credential.fetch('id', nil)
+      authentication.update(api_id: api_id) if api_id
     end
 
     if credential.authentications.is_accepted.any?
