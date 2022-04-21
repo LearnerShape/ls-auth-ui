@@ -2,7 +2,9 @@ require "rails_helper"
 
 RSpec.describe "My credentials", type: :request do
   before do
-    sign_in User.create(email: "anna@example.com", password: "calufrax")
+    sign_in User.create_with_contact(name: "Anna Example",
+                                     email: "anna@example.com",
+                                     password: "calufrax")
   end
   it "creates a credential" do
     post "/my_credentials", params: { name: 'name',

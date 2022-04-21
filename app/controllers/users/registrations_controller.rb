@@ -12,15 +12,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super
-    create_user_in_api
-  end
-
-  def create_user_in_api
-    created_user = ::Commands::CreateUser.do(name: current_user.name, email: current_user.email)
-    api_id = created_user.fetch('id', nil)
-    if api_id
-      current_user.update(api_id: api_id)
-    end
+    current_user.create_or_join_contact
   end
 
   # GET /resource/edit

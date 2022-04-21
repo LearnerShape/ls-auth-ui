@@ -22,7 +22,9 @@ RSpec.describe "Public views", type: :request do
   end
 
   it "creates a public view" do
-    user = User.create(name: "Claimant Test", email: @claimant.email, password: "calufrax")
+    user = User.create_with_contact(name: "Claimant Test",
+                                    email: @claimant.email,
+                                    password: "calufrax")
     sign_in user
 
     post "/public_views", params: { credentials_to_add: {

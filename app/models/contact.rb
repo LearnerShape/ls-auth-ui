@@ -1,4 +1,5 @@
 class Contact < ApplicationRecord
+  belongs_to :user, optional: true
 
   def self.retrieve_or_build(name:, email:)
     contact = Contact.where(name: name, email: email).first

@@ -2,7 +2,9 @@ require "rails_helper"
 
 RSpec.describe "Credentials for others", type: :request do
   before do
-    sign_in User.create(email: "cristina.tutor@example.com", password: "calufrax")
+    sign_in User.create_with_contact(name: "Cristina Tutor",
+                                     email: "cristina.tutor@example.com",
+                                     password: "calufrax")
   end
 
   it "creates a credential per participant" do
