@@ -13,7 +13,7 @@ class MyCredentialsController < ApplicationController
                          skill_type: params[:type],
                          description: params[:description])
 
-    created_skill = ::Commands::CreateSkill.do(user_id: current_user.api_id,
+    created_skill = ::Commands::CreateSkill.do(user_id: holder.api_id,
                                                skill_name: skill.name,
                                                skill_type: skill.skill_type,
                                                skill_description: skill.description)
@@ -27,9 +27,9 @@ class MyCredentialsController < ApplicationController
     holder_authentication.mark_accepted
 
     if skill.api_id
-      created_credential = ::Commands::CreateCredential.do(holder: current_user.api_id,
+      created_credential = ::Commands::CreateCredential.do(holder: holder.api_id,
                                                            skill: skill.api_id,
-                                                           issuer: current_user.api_id,
+                                                           issuer: holder.api_id,
                                                            status: 'issued')
       api_id = created_credential.fetch('id', nil)
       holder_authentication.update(api_id: api_id) if api_id
@@ -38,9 +38,9 @@ class MyCredentialsController < ApplicationController
     authenticators.each do |authenticator|
       authentication = Authentication.create(credential: credential,
                                              authenticator: authenticator)
-      created_credential = ::Commands::CreateCredential.do(holder: current_user.api_id,
+      created_credential = ::Commands::CreateCredential.do(holder: holder.api_id,
                                                            skill: skill.api_id,
-                                                           issuer: User.where(email: authenticator.email).first.api_id,
+                                                           issuer: authenticator.api_id,
                                                            status: 'requested')
       api_id = created_credential.fetch('id', nil)
       authentication.update(api_id: api_id) if api_id
