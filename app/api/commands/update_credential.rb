@@ -1,11 +1,11 @@
 module Commands
   class UpdateCredential < Call
     def self.accept(id:)
-      self.do(id: id, status: 'issued')
+      self.do(id: id, status: 'Issued')
     end
 
     def self.refuse(id:)
-      self.do(id: id, status: 'rejected')
+      self.do(id: id, status: 'Rejected')
     end
 
     def self.do(id:, status:)

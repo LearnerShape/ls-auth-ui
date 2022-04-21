@@ -31,7 +31,7 @@ class MyCredentialsController < ApplicationController
       created_credential = ::Commands::CreateCredential.do(holder: holder.api_id,
                                                            skill: skill.api_id,
                                                            issuer: holder.api_id,
-                                                           status: 'issued')
+                                                           status: 'Issued')
       api_id = created_credential.fetch('id', nil)
       holder_authentication.update(api_id: api_id) if api_id
     end
@@ -42,7 +42,7 @@ class MyCredentialsController < ApplicationController
       created_credential = ::Commands::CreateCredential.do(holder: holder.api_id,
                                                            skill: skill.api_id,
                                                            issuer: authenticator.api_id,
-                                                           status: 'requested')
+                                                           status: 'Requested')
       api_id = created_credential.fetch('id', nil)
       authentication.update(api_id: api_id) if api_id
     end
