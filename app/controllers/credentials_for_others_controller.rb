@@ -3,7 +3,7 @@ class CredentialsForOthersController < ApplicationController
   end
 
   def create
-    creator = Contact.find_or_create_by(email: current_user.email)
+    creator = current_user.contact
     participant_params = params[:participants].split("\n")
     participants = participant_params.map do |row|
       ne = NameAndEmail.parse(row)
@@ -31,7 +31,7 @@ class CredentialsForOthersController < ApplicationController
   end
 
   def index
-    creator = Contact.find_or_create_by(email: current_user.email)
+    creator = current_user.contact
     @programs = Program.where(creator: creator)
   end
 end

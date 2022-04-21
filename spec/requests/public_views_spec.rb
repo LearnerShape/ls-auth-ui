@@ -2,7 +2,10 @@ require "rails_helper"
 
 RSpec.describe "Public views", type: :request do
   before do
-    @claimant = Contact.create(email: "claimant@example.com")
+    @user = User.create_with_contact(name: "Claimant Test",
+                                    email: "claimant.test@example.com",
+                                    password: "calufrax")
+    @claimant = @user.contact
 
     @skill1 = Skill.create(name: "skill1")
     @skill2 = Skill.create(name: "skill2")
@@ -22,10 +25,7 @@ RSpec.describe "Public views", type: :request do
   end
 
   it "creates a public view" do
-    user = User.create_with_contact(name: "Claimant Test",
-                                    email: @claimant.email,
-                                    password: "calufrax")
-    sign_in user
+    sign_in @user
 
     post "/public_views", params: { credentials_to_add: {
                                       @credential3.id => "1",

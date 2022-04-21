@@ -1,6 +1,6 @@
 class MyInvitedAuthenticationsController < ApplicationController
   def index
-    authenticator = Contact.find_or_create_by(email: current_user.email)
+    authenticator = current_user.contact
     my_authentications = Authentication.where(authenticator: authenticator)
     @invited_authentications = my_authentications.is_invited
     @accepted_authentications = my_authentications.is_accepted

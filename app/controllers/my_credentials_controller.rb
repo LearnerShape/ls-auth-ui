@@ -3,7 +3,7 @@ class MyCredentialsController < ApplicationController
   end
 
   def create
-    holder = Contact.find_or_create_by(email: current_user.email)
+    holder = current_user.contact
     authenticator_params = params[:authenticators].split("\n")
     authenticators = authenticator_params.map do |row|
       ne = NameAndEmail.parse(row)
@@ -54,7 +54,7 @@ class MyCredentialsController < ApplicationController
   end
 
   def index
-    holder = Contact.find_or_create_by(email: current_user.email)
+    holder = current_user.contact
     @my_credentials = Credential.where(holder: holder).is_authenticated
   end
 end
