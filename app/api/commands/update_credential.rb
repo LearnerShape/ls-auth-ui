@@ -1,17 +1,17 @@
 module Commands
   class UpdateCredential < Call
-    def self.accept(id:)
-      self.do(id: id, status: 'Issued')
+    def self.accept(id:, issuer_id:)
+      self.do(id: id, issuer_id: issuer_id, status: 'Issued')
     end
 
-    def self.refuse(id:)
-      self.do(id: id, status: 'Rejected')
+    def self.refuse(id:, issuer_id:)
+      self.do(id: id, issuer_id: issuer_id, status: 'Rejected')
     end
 
-    def self.do(id:, status:)
-      uri = URI("#{base_url}api/v1/credentials/#{id}/")
+    def self.do(id:, issuer_id:, status:)
+      uri = URI("#{base_url}api/v1/users/#{issuer_id}/credentials/#{id}/")
       res = Net::HTTP.start(uri.host, uri.port) do |http|
-        req = Net::HTTP::Put.new(uri)
+        req = Net::HTTP::Patch.new(uri)
         req['Content-Type'] = 'application/json'
         req['X-API-Key'] = api_key
         req['X-Auth-Token'] = auth_token
