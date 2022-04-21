@@ -7,7 +7,7 @@ class MyCredentialsController < ApplicationController
     authenticator_params = params[:authenticators].split("\n")
     authenticators = authenticator_params.map do |row|
       ne = NameAndEmail.parse(row)
-      Contact.find_or_create_by(name: ne.name, email: ne.email)
+      Contact.retrieve_or_build(name: ne.name, email: ne.email)
     end
 
     skill = Skill.create(name: params[:name],

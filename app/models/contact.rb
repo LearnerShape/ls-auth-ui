@@ -1,2 +1,15 @@
 class Contact < ApplicationRecord
+
+  def self.retrieve_or_build(name:, email:)
+    contact = Contact.where(name: name, email: email).first
+    return contact if contact
+
+    contact = Contact.create(name: name, email: email)
+    api_user = ::Commands::CreateUser.do(name: name, email: email)
+    api_id = api_user.fetch('id', nil)
+    if api_id
+      contact.update(api_id: api_id)
+    end
+    contact
+  end
 end
