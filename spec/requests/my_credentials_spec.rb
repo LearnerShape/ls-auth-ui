@@ -8,7 +8,7 @@ RSpec.describe "My credentials", type: :request do
     post "/my_credentials", params: { name: 'name',
                                       type: 'GeneralCredential',
                                       description: 'description',
-                                      authenticators: "beth@example.com\nbodil@example.com" }
+                                      authenticators: "Beth Example <beth@example.com>\nBodil Example <bodil@example.com>" }
     expect(Contact.count).to eq(3)
 
     expect(Skill.count).to eq(1)

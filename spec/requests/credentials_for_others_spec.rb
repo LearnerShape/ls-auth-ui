@@ -9,7 +9,7 @@ RSpec.describe "Credentials for others", type: :request do
     post "/credentials_for_others", params: { name: 'name',
                                               type: 'EducationCredential',
                                               description: 'description',
-                                              participants: "beth.student@example.com\nbodil.student@example.com" }
+                                              participants: "Beth Student <beth.student@example.com>\nBodil Student <bodil.student@example.com>" }
 
     expect(Contact.count).to eq(3)
     expect(Skill.count).to eq(1)

@@ -4,9 +4,10 @@ class CredentialsForOthersController < ApplicationController
 
   def create
     creator = Contact.find_or_create_by(email: current_user.email)
-    participant_emails = params[:participants].split("\n")
-    participants = participant_emails.map do |email|
-      Contact.find_or_create_by(email: email)
+    participant_params = params[:participants].split("\n")
+    participants = participant_params.map do |row|
+      ne = NameAndEmail.parse(row)
+      Contact.find_or_create_by(name: ne.name, email: ne.email)
     end
     skill = Skill.create(name: params[:name],
                          skill_type: params[:type],
