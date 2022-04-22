@@ -12,6 +12,12 @@ class CredentialsForOthersController < ApplicationController
     skill = Skill.create(name: params[:name],
                          skill_type: params[:type],
                          description: params[:description])
+    created_skill = ::Commands::CreateSkill.do(user_id: creator.api_id,
+                                               skill_name: skill.name,
+                                               skill_type: skill.skill_type,
+                                               skill_description: skill.description)
+    api_id = created_skill.fetch('id', nil)
+    skill.update(api_id: api_id) if api_id
 
     Program.create(creator: creator, skill: skill)
 
@@ -20,8 +26,16 @@ class CredentialsForOthersController < ApplicationController
     end
 
     authentications = credentials.map do |credential|
-      Authentication.create(credential: credential,
-                            authenticator: creator)
+      authentication = Authentication.create(credential: credential,
+                                             authenticator: creator)
+
+      created_credential = ::Commands::CreateCredential.do(holder: credential.holder.api_id,
+                                                           skill: skill.api_id,
+                                                           issuer: creator.api_id,
+                                                           status: 'Issued')
+      api_id = created_credential.fetch('id', nil)
+      authentication.update(api_id: api_id) if api_id
+      authentication
     end
 
     authentications.map(&:mark_accepted)

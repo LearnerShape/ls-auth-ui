@@ -1,7 +1,7 @@
 module Commands
   class CreateCredential < Call
     def self.do(holder:, skill:, issuer:, status:)
-      uri = URI("#{base_url}api/v1/users/#{holder}/credentials/")
+      uri = URI("#{base_url}api/v1/users/#{issuer}/credentials/")
       res = Net::HTTP.start(uri.host, uri.port) do |http|
         req = Net::HTTP::Post.new(uri)
         req['Content-Type'] = 'application/json'
