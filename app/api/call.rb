@@ -2,7 +2,7 @@ require 'net/http'
 
 class Call
   def self.base_url
-    "http://host.docker.internal:5000/"
+    "http://ls-auth-api_web_1:5000/"
   end
 
   def self.api_key
