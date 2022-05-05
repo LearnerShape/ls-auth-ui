@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   root to: 'home#index'
   devise_for :users, :controllers => { :registrations => "users/registrations" }
-  resources :my_credentials, only: [:new, :create, :index]
+  resources :my_credentials, only: [:new, :create, :index] do
+    member do
+      get 'add_authenticators_form'
+      post 'add_authenticators'
+    end
+  end
   resources :credentials_for_others, only: [:new, :create, :index]
   resources :my_invited_authentications do
     member do

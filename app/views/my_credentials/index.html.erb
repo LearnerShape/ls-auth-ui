@@ -10,10 +10,12 @@
         <% end %>
         <b>Added:</b> <%= credential.created_at.strftime("%-d %B %Y:%k:%M") %><br/>
         <b>Authentications:</b>
-    <ul class="compressed">
-        <% credential.authentications.order(:status).each do |authentication| %>
-            <li><%= authentication.authenticator.email %> | <%= authentication.status %></li>
-        <% end %>
-    </ul></li>
+        <ul class="compressed">
+            <% credential.authentications.order(:status).each do |authentication| %>
+                <li><%= authentication.authenticator.email %> | <%= authentication.status %></li>
+            <% end %>
+        </ul>
+        <%= link_to "Add Authenticators", add_authenticators_form_my_credential_path(credential.id) %>
+    </li>
 <% end %>
 </ul>

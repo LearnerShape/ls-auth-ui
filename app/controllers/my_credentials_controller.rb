@@ -4,11 +4,7 @@ class MyCredentialsController < ApplicationController
 
   def create
     holder = current_user.contact
-    authenticator_params = params[:authenticators].split("\n")
-    authenticators = authenticator_params.map do |row|
-      ne = NameAndEmail.parse(row)
-      Contact.retrieve_or_build(name: ne.name, email: ne.email)
-    end
+    authenticators = retrieve_or_build_authenticators_from_params
 
     skill = Skill.create(name: params[:name],
                          skill_type: params[:type],
@@ -36,16 +32,9 @@ class MyCredentialsController < ApplicationController
       holder_authentication.update(api_id: api_id) if api_id
     end
 
-    authenticators.each do |authenticator|
-      authentication = Authentication.create(credential: credential,
-                                             authenticator: authenticator)
-      created_credential = ::Commands::CreateCredential.do(holder: holder.api_id,
-                                                           skill: skill.api_id,
-                                                           issuer: authenticator.api_id,
-                                                           status: 'Requested')
-      api_id = created_credential.fetch('id', nil)
-      authentication.update(api_id: api_id) if api_id
-    end
+    build_authentications_for_credential(holder: holder,
+                                         credential: credential,
+                                         authenticators: authenticators)
 
     if credential.authentications.is_accepted.any?
       credential.mark_authenticated
@@ -56,5 +45,47 @@ class MyCredentialsController < ApplicationController
   def index
     holder = current_user.contact
     @my_credentials = Credential.where(holder: holder).is_authenticated
+  end
+
+  def add_authenticators_form
+    holder = current_user.contact
+    @credential = Credential.where(id: params[:id]).first
+    return head(:forbidden) if @credential.holder != holder
+  end
+
+  def add_authenticators
+    holder = current_user.contact
+    credential = Credential.where(id: params[:id]).first
+    return head(:forbidden) if credential.holder != holder
+
+    authenticators = retrieve_or_build_authenticators_from_params
+    build_authentications_for_credential(holder: holder,
+                                         credential: credential,
+                                         authenticators: authenticators)
+
+    redirect_to action: :index
+  end
+
+  private
+
+  def retrieve_or_build_authenticators_from_params
+    authenticator_params = params[:authenticators].split("\n")
+    authenticator_params.map do |row|
+      ne = NameAndEmail.parse(row)
+      Contact.retrieve_or_build(name: ne.name, email: ne.email)
+    end
+  end
+
+  def build_authentications_for_credential(holder:, credential:, authenticators:)
+    authenticators.each do |authenticator|
+      authentication = Authentication.create(credential: credential,
+                                             authenticator: authenticator)
+      created_credential = ::Commands::CreateCredential.do(holder: holder.api_id,
+                                                           skill: credential.skill.api_id,
+                                                           issuer: authenticator.api_id,
+                                                           status: 'Requested')
+      api_id = created_credential.fetch('id', nil)
+      authentication.update(api_id: api_id) if api_id
+    end
   end
 end

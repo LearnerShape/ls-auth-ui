@@ -1,0 +1,31 @@
+[<%= link_to "Home", root_path %>]
+
+<h1>Add Authenticators to Credential</h1>
+
+<ul>
+    <li><b>Name:</b> <%= @credential.skill.name %> (<%= @credential.skill.skill_type %>)<br/>
+        <% if @credential.skill.description.present? %>
+            <b>Description:</b> <%= @credential.skill.description %><br/>
+        <% end %>
+        <b>Added:</b> <%= @credential.created_at.strftime("%-d %B %Y:%k:%M") %><br/>
+        <b>Authentications:</b>
+        <ul class="compressed">
+            <% @credential.authentications.order(:status).each do |authentication| %>
+                <li><%= authentication.authenticator.email %> | <%= authentication.status %></li>
+            <% end %>
+        </ul>
+        <br/>
+        <%= form_with url: add_authenticators_my_credential_path do |form| %>
+            <div class="field">
+                <%= form.label :authenticators, "Authenticators, one per line, as: 'name <email>':" %><br/>
+                <%= form.text_area :authenticators %>
+            </div>
+
+
+            <div class="actions">
+                <%=  form.submit "Add Authenticators" %>
+            </div>
+        <% end %>
+    </li>
+</ul>
+
