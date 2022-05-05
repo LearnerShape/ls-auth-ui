@@ -7,7 +7,12 @@ Rails.application.routes.draw do
       post 'add_authenticators'
     end
   end
-  resources :credentials_for_others, only: [:new, :create, :index]
+  resources :credentials_for_others, only: [:new, :create, :index] do
+    member do
+      get 'add_participants_form'
+      post 'add_participants'
+    end
+  end
   resources :my_invited_authentications do
     member do
       get 'accept'

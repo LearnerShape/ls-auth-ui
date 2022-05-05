@@ -4,11 +4,7 @@ class CredentialsForOthersController < ApplicationController
 
   def create
     creator = current_user.contact
-    participant_params = params[:participants].split("\n")
-    participants = participant_params.map do |row|
-      ne = NameAndEmail.parse(row)
-      Contact.retrieve_or_build(name: ne.name, email: ne.email)
-    end
+    participants = participants_from_params
     skill = Skill.create(name: params[:name],
                          skill_type: params[:type],
                          description: params[:description])
@@ -21,6 +17,50 @@ class CredentialsForOthersController < ApplicationController
 
     Program.create(creator: creator, skill: skill)
 
+    credentials_from_participants(creator: creator,
+                                  skill: skill,
+                                  participants: participants)
+
+    redirect_to action: :index
+  end
+
+  def index
+    creator = current_user.contact
+    @programs = Program.where(creator: creator)
+  end
+
+  def add_participants_form
+    creator = current_user.contact
+    @program = Program.where(id: params[:id]).first
+    return head(:forbidden) if @program.creator != creator
+  end
+
+  def add_participants
+    creator = current_user.contact
+    program = Program.where(id: params[:id]).first
+    return head(:forbidden) if program.creator != creator
+
+    skill = program.skill
+    participants = participants_from_params
+
+    credentials_from_participants(creator: creator,
+                                  skill: skill,
+                                  participants: participants)
+
+    redirect_to action: :index
+  end
+
+  private
+
+  def participants_from_params
+    participant_params = params[:participants].split("\n")
+    participant_params.map do |row|
+      ne = NameAndEmail.parse(row)
+      Contact.retrieve_or_build(name: ne.name, email: ne.email)
+    end
+  end
+
+  def credentials_from_participants(creator:, skill:, participants:)
     credentials = participants.map do |participant|
       Credential.create(holder: participant, skill: skill)
     end
@@ -40,12 +80,5 @@ class CredentialsForOthersController < ApplicationController
 
     authentications.map(&:mark_accepted)
     credentials.map(&:mark_authenticated)
-
-    redirect_to action: :index
-  end
-
-  def index
-    creator = current_user.contact
-    @programs = Program.where(creator: creator)
   end
 end

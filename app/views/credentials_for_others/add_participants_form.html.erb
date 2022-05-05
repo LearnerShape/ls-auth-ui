@@ -1,0 +1,31 @@
+[<%= link_to "Home", root_path %>]
+
+<h1>Add Participants</h1>
+
+<ul>
+    <% skill = @program.skill %>
+    <li><b>Name:</b> <%= skill.name %> (<%= skill.skill_type %>)<br/>
+        <% if skill.description.present? %>
+            <b>Description:</b> <%= skill.description %>
+        <% end %>
+        <b>Added:</b> <%= skill.created_at.strftime("%-d %B %Y:%k:%M") %><br/>
+        <b>Participants:</b>
+        <ul class="compressed">
+            <% @program.credentials.map(&:holder).each do |participant| %>
+                <li><%= participant.email %></li>
+            <% end %>
+        </ul>
+        <br/>
+        <%= form_with url: add_participants_credentials_for_other_path do |form| %>
+            <div class="field">
+                <%= form.label :participants, "Participants, one per line, as: 'name <email>':" %><br/>
+                <%= form.text_area :participants %>
+            </div>
+
+
+            <div class="actions">
+                <%=  form.submit "Add Participants" %>
+            </div>
+        <% end %>
+    </li>
+</ul>

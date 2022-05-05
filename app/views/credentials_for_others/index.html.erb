@@ -13,8 +13,10 @@
             <b>Participants:</b>
             <ul class="compressed">
                 <% program.credentials.map(&:holder).each do |participant| %>
-                    <li><%= participant.email %>
+                    <li><%= participant.email %></li>
                 <% end %>
             </ul>
+            <%= link_to "Add Participants", add_participants_form_credentials_for_other_path(program.id) %>
+        </li>
     <% end %>
 </ul>
