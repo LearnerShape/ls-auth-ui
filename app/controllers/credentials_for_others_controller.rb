@@ -50,6 +50,24 @@ class CredentialsForOthersController < ApplicationController
     redirect_to action: :index
   end
 
+  def revoke
+    creator = current_user.contact
+    credential = Credential.where(id: params[:id]).first
+    return head(:forbidden) unless credential.authentications.map(&:authenticator_id).include?(creator.id)
+
+    authentications = credential.authentications
+
+    authentications.map(&:mark_revoked)
+    credential.mark_revoked
+
+    authentications.each do |authentication|
+      ::Commands::UpdateCredential.revoke(id: authentication.api_id,
+                                          issuer_id: authentication.authenticator.api_id)
+    end
+
+    redirect_to action: :index
+  end
+
   private
 
   def participants_from_params

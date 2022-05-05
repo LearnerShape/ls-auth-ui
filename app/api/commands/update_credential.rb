@@ -8,6 +8,10 @@ module Commands
       self.do(id: id, issuer_id: issuer_id, status: 'Rejected')
     end
 
+    def self.revoke(id:, issuer_id:)
+      self.do(id: id, issuer_id: issuer_id, status: 'Revoked')
+    end
+
     def self.do(id:, issuer_id:, status:)
       uri = URI("#{base_url}api/v1/users/#{issuer_id}/credentials/#{id}/")
       res = Net::HTTP.start(uri.host, uri.port) do |http|

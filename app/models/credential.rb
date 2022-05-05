@@ -5,8 +5,13 @@ class Credential < ApplicationRecord
 
   scope :is_draft, -> { where(status: 'draft') }
   scope :is_authenticated, -> { where(status: 'authenticated') }
+  scope :is_revoked, -> { where(status: 'revoked') }
 
   def mark_authenticated
     update(status: 'authenticated')
+  end
+
+  def mark_revoked
+    update(status: 'revoked')
   end
 end

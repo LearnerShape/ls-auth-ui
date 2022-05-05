@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     member do
       get 'add_participants_form'
       post 'add_participants'
+      get 'revoke'
     end
   end
   resources :my_invited_authentications do

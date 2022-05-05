@@ -12,10 +12,18 @@
             <b>Added:</b> <%= skill.created_at.strftime("%-d %B %Y:%k:%M") %><br/>
             <b>Participants:</b>
             <ul class="compressed">
-                <% program.credentials.map(&:holder).each do |participant| %>
-                    <li><%= participant.email %></li>
+                <% program.credentials.is_authenticated.each do |credential| %>
+                    <li><%= credential.try(:holder).try(:email) %> [<%= link_to "Revoke", revoke_credentials_for_other_path(credential.id) %>]</li>
                 <% end %>
             </ul>
+            <% if program.credentials.is_revoked.any? %>
+                <b>Revoked Participants:</b>
+                <ul class="compressed">
+                    <% program.credentials.is_revoked.each do |credential| %>
+                        <li><%= credential.try(:holder).try(:email) %></li>
+                    <% end %>
+                </ul>
+            <% end %>
             <%= link_to "Add Participants", add_participants_form_credentials_for_other_path(program.id) %>
         </li>
     <% end %>

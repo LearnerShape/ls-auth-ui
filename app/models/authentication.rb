@@ -13,4 +13,8 @@ class Authentication < ApplicationRecord
   def mark_refused
     update(status: 'refused')
   end
+
+  def mark_revoked
+    update(status: 'revoked')
+  end
 end
