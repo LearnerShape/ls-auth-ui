@@ -6,10 +6,10 @@ class Call
   end
 
   def self.api_key
-    "a"
+    ENV['LS_AUTH_API_KEY']
   end
 
   def self.auth_token
-    "b"
+    ENV['LS_AUTH_AUTH_TOKEN']
   end
 end

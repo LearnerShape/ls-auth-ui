@@ -15,6 +15,13 @@ services:
       - "3000:3000"
     depends_on:
       - db
+    environment:
+      - LS_AUTH_API_KEY=$LS_AUTH_API_KEY
+      - LS_AUTH_AUTH_TOKEN=$LS_AUTH_AUTH_TOKEN
+      - LS_MAILER_ADDRESS=$LS_MAILER_ADDRESS
+      - LS_MAILER_PORT=$LS_MAILER_PORT
+      - LS_MAILER_USERNAME=$LS_MAILER_USERNAME
+      - LS_MAILER_PASSWORD=$LS_MAILER_PASSWORD
 networks:
     default:
         external:
