@@ -1,4 +1,4 @@
-class MyCredentialsController < ApplicationController
+class MyCredentialsController < CredentialsController
   def new
   end
 
@@ -44,9 +44,8 @@ class MyCredentialsController < ApplicationController
 
   def index
     holder = current_user.contact
+    update_transaction_ids_by_holder(holder_api_id: holder.api_id)
     @my_credentials = Credential.where(holder: holder).is_authenticated
-    @auths_to_transaction_ids = Queries::GetCredentials.do(holder_id: holder.api_id)['credentials'].map { |auth| auth.slice('id', 'submission_transaction_id') }
-    @auths_indexes = @auths_to_transaction_ids.map { |auth| auth.slice('id').values }.flatten
   end
 
   def add_authenticators_form

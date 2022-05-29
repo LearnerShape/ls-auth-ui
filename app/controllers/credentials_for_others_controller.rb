@@ -1,4 +1,4 @@
-class CredentialsForOthersController < ApplicationController
+class CredentialsForOthersController < CredentialsController
   def new
   end
 
@@ -25,8 +25,9 @@ class CredentialsForOthersController < ApplicationController
   end
 
   def index
-    creator = current_user.contact
-    @programs = Program.where(creator: creator)
+    @creator = current_user.contact
+    update_transaction_ids_by_creator(creator: @creator)
+    @programs = Program.where(creator: @creator)
   end
 
   def add_participants_form

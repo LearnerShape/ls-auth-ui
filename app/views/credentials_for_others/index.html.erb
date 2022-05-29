@@ -13,14 +13,31 @@
             <b>Participants:</b>
             <ul class="compressed">
                 <% program.credentials.is_authenticated.each do |credential| %>
-                    <li><%= credential.try(:holder).try(:email) %> [<%= link_to "Revoke", revoke_credentials_for_other_path(credential.id) %>]</li>
+                    <li><%= credential.try(:holder).try(:email) %> |
+                        <% authentication = credential.authentications.where(authenticator: @creator).first %>
+                        <% if authentication.submission_transaction_id %>
+                            <b>submission_transaction_id:</b>
+                            <%= authentication.submission_transaction_id %>
+                        <% end %>
+                        [<%= link_to "Revoke", revoke_credentials_for_other_path(credential.id) %>]</li>
                 <% end %>
             </ul>
             <% if program.credentials.is_revoked.any? %>
                 <b>Revoked Participants:</b>
                 <ul class="compressed">
                     <% program.credentials.is_revoked.each do |credential| %>
-                        <li><%= credential.try(:holder).try(:email) %></li>
+                        <li><%= credential.try(:holder).try(:email) %> |
+                            <% authentication = credential.authentications.where(authenticator: @creator).first %>
+                            <% if authentication.submission_transaction_id %>
+                                <b>submission_transaction_id:</b>
+                                <%= authentication.submission_transaction_id %>
+                            <% end %>
+                            |
+                            <% if authentication.revocation_transaction_id %>
+                                <b>revocation_transaction_id:</b>
+                                <%= authentication.revocation_transaction_id %>
+                            <% end %>
+                        </li>
                     <% end %>
                 </ul>
             <% end %>

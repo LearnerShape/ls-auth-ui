@@ -13,10 +13,14 @@
         <ul class="compressed">
             <% credential.authentications.order(:status).each do |authentication| %>
                 <li><%= authentication.authenticator.email %> | <%= authentication.status %> |
-                    <% index = @auths_indexes.index(authentication.api_id) %>
-                    <% unless index.nil? %>
-                        <b>transaction_id:</b>
-                        <%= @auths_to_transaction_ids[index]['submission_transaction_id'] %>
+                    <% if authentication.submission_transaction_id %>
+                        <b>submission_transaction_id:</b>
+                        <%= authentication.submission_transaction_id %>
+                        |
+                    <% end %>
+                    <% if authentication.revocation_transaction_id %>
+                        <b>revocation_transaction_id:</b>
+                        <%= authentication.revocation_transaction_id %>
                     <% end %>
                 </li>
             <% end %>
