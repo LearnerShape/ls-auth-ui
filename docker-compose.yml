@@ -17,6 +17,7 @@ services:
       - db
     environment:
       - LS_AUTH_API_KEY=$LS_AUTH_API_KEY
+      - LS_AUTH_API_URI=$LS_AUTH_API_URI
       - LS_AUTH_AUTH_TOKEN=$LS_AUTH_AUTH_TOKEN
       - LS_MAILER_ADDRESS=$LS_MAILER_ADDRESS
       - LS_MAILER_PORT=$LS_MAILER_PORT
