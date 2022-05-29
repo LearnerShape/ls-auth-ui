@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "admin@learnershape.com"
+  default from: "info@learnershape.com"
   layout "mailer"
 end
