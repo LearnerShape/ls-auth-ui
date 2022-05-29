@@ -1,7 +1,7 @@
 class CredentialsController < ApplicationController
 
   def update_transaction_ids_by_creator(creator:)
-    credential_ids =  Authentication.where(authenticator: creator).pluck(:credential_id)
+    credential_ids = Authentication.where(authenticator: creator).pluck(:credential_id)
     credentials = Credential.where(id: credential_ids).is_authenticated.uniq
     holder_api_ids = credentials.map(&:holder).uniq.map(&:api_id).compact
     holder_api_ids.each do |holder_api_id|
@@ -10,8 +10,10 @@ class CredentialsController < ApplicationController
   end
 
   def update_transaction_ids_by_holder(holder_api_id:)
-    transaction_id_rows = Queries::GetCredentials.do(holder_id: holder_api_id)['credentials'].map { |auth| auth.slice('id', 'submission_transaction_id') }
-    update_authentications_with_transaction_ids(transaction_id_rows: transaction_id_rows)
+    rows = Queries::GetCredentials.do(holder_id: holder_api_id)['credentials'] || []
+    return if rows.empty?
+
+    update_authentications_with_transaction_ids(transaction_id_rows: rows)
   end
 
   def update_authentications_with_transaction_ids(transaction_id_rows:)
