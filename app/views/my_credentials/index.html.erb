@@ -12,7 +12,13 @@
         <b>Authentications:</b>
         <ul class="compressed">
             <% credential.authentications.order(:status).each do |authentication| %>
-                <li><%= authentication.authenticator.email %> | <%= authentication.status %></li>
+                <li><%= authentication.authenticator.email %> | <%= authentication.status %> |
+                    <% index = @auths_indexes.index(authentication.api_id) %>
+                    <% unless index.nil? %>
+                        <b>transaction_id:</b>
+                        <%= @auths_to_transaction_ids[index]['submission_transaction_id'] %>
+                    <% end %>
+                </li>
             <% end %>
         </ul>
         <%= link_to "Add Authenticators", add_authenticators_form_my_credential_path(credential.id) %>
