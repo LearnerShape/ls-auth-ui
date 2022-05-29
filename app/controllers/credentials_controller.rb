@@ -27,8 +27,13 @@ class CredentialsController < ApplicationController
       next unless authentication.present?
 
       attrs = {}
-      attrs.store(:submission_transaction_id, submission) unless submission.blank?
-      attrs.store(:revocation_transaction_id, revocation) unless revocation.blank?
+      if submission.present? && authentication.submission_transaction_id != submission
+        attrs.store(:submission_transaction_id, submission)
+      end
+      if revocation.present? && authentication.revocation_transaction_id != revocation
+        attrs.store(:revocation_transaction_id, revocation)
+      end
+      next if attrs.blank?
 
       authentication.update(attrs)
     end
