@@ -16,6 +16,9 @@ module Commands
     rescue Errno::ECONNREFUSED => e
       Rails.logger.warn("cannot connect to api: #{e}")
       {}
+    rescue => e
+      Rails.logger.warn("error: #{e}")
+      {}
     end
   end
 end

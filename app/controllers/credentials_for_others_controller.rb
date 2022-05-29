@@ -93,6 +93,13 @@ class CredentialsForOthersController < ApplicationController
                                                            status: 'Issued')
       api_id = created_credential.fetch('id', nil)
       authentication.update(api_id: api_id) if api_id
+
+      InviteParticipantMailer.with(authenticator: creator,
+                                   credential: credential,
+                                   holder: credential.holder)
+        .invite
+        .deliver_later
+
       authentication
     end
 

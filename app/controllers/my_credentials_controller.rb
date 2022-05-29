@@ -87,7 +87,11 @@ class MyCredentialsController < ApplicationController
       api_id = created_credential.fetch('id', nil)
       authentication.update(api_id: api_id) if api_id
 
-      InviteAuthenticatorMailer.with(authenticator: authenticator, credential: credential, holder: holder).invite.deliver_now
+      InviteAuthenticatorMailer.with(authenticator: authenticator,
+                                     credential: credential,
+                                     holder: holder)
+        .invite
+        .deliver_later
     end
   end
 end
