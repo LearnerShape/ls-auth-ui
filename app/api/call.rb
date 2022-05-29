@@ -2,7 +2,7 @@ require 'net/http'
 
 class Call
   def self.base_url
-    "http://ls-auth-api_web_1:5000/"
+    ENV["LS_AUTH_API_URI"]
   end
 
   def self.api_key
