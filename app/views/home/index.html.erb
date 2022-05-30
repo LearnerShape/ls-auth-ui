@@ -1,4 +1,4 @@
-<h1>Home for <%= current_user.name %></h1>
+<p><%= current_user.name %> [<%= link_to "Logout", destroy_user_session_path, data: { "turbo-method": :delete } %>] [<a href="https://learnershape.gitbook.io/learnershape-skillsgraph/" target="_blank">Documentation</a>]</p>
 
 <ul class="compressed">
     <li>My Credentials</li>
@@ -20,9 +20,4 @@
         <li><%= link_to "Create New Credential for Others", new_credentials_for_other_path %></li>
         <li><%= link_to "List Credentials for Others", credentials_for_others_path %></li>
     </ul>
-    <li><a href="https://learnershape.gitbook.io/learnershape-skillsgraph/" target="_blank">Documentation</a></li>
 </ul>
-
-<hr>
-
-<%= button_to "Logout", destroy_user_session_path, method: :delete  %>
