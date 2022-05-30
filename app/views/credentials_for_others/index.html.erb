@@ -16,8 +16,9 @@
                     <li><%= credential.try(:holder).try(:email) %> |
                         <% authentication = credential.authentications.where(authenticator: @creator).first %>
                         <% if authentication.submission_transaction_id %>
-                            <b>submission_transaction_id:</b>
-                            <%= authentication.submission_transaction_id %>
+                            <b>submission:</b>
+                            <%= link_to authentication.submission_transaction_id, "https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=#{authentication.submission_transaction_id}", target: "_blank" %>
+                            |
                         <% end %>
                         [<%= link_to "Revoke", revoke_credentials_for_other_path(credential.id) %>]</li>
                 <% end %>
@@ -29,13 +30,14 @@
                         <li><%= credential.try(:holder).try(:email) %> |
                             <% authentication = credential.authentications.where(authenticator: @creator).first %>
                             <% if authentication.submission_transaction_id %>
-                                <b>submission_transaction_id:</b>
-                                <%= authentication.submission_transaction_id %>
+                                <b>submission:</b>
+                                <%= link_to authentication.submission_transaction_id, "https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=#{authentication.submission_transaction_id}", target: "_blank" %>
+                                |
                             <% end %>
-                            |
                             <% if authentication.revocation_transaction_id %>
-                                <b>revocation_transaction_id:</b>
-                                <%= authentication.revocation_transaction_id %>
+                                <b>revocation:</b>
+                                <%= link_to authentication.revocation_transaction_id, "https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=#{authentication.revocation_transaction_id}", target: "_blank" %>
+                                |
                             <% end %>
                         </li>
                     <% end %>
