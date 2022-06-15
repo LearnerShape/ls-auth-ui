@@ -11,8 +11,4 @@ The ls-auth-ui app should then be accessible at localhost:3000.
 
 ## Use instructions ##
 
-### Functions for users with a personal skills graph ###
-
-### Functions for authenticating user skills ###
-
-### Functions for viewing / verifying skills ###
+Now documented at [LearnerShape SkillsGraph](https://learnershape.gitbook.io/learnershape-skillsgraph/).
