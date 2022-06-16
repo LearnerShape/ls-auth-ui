@@ -25,8 +25,6 @@ Please report bugs on our issues page. The more information you can provide the 
 
 If you think a bug may have security implications please report it privately to sean@learnershape.com. Your report will be acknowledged and a plan established to address the issue. By having a fix available before a security issue is announced the public impact is hopefully reduced.
 
-At Learnershape we are running lsgraph on a private subnet preventing direct access. This provides additional security benefits, but we are also committed to keeping lsgraph as secure as possible when running in a less secure environment.
-
 
 # Contributing
 
