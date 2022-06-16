@@ -27,6 +27,5 @@ services:
       - LS_TEMPLATE_NAME=$LS_TEMPLATE_NAME
       - LS_TEMPLATE_URI=$LS_TEMPLATE_URI
 networks:
-    default:
-        external:
-            name: ui-api-bridge
+  default:
+    name: ui-api-bridge
