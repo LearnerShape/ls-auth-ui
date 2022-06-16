@@ -12,13 +12,13 @@ class InviteParticipantMailer < ApplicationMailer
 
   def invite_existing
     mail(to: @holder.email,
-         subject: "New credential from skillsgraph.learnershape.com",
+         subject: "New credential from #{ENV['LS_TEMPLATE_NAME']}",
          template_name: "invite_existing")
   end
 
   def invite_new
     mail(to: @holder.email,
-         subject: "Welcome to skillsgraph.learnershape.com",
+         subject: "Welcome to #{ENV['LS_TEMPLATE_NAME']}",
          template_name: "invite_new")
   end
 end

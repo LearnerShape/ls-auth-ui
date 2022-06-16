@@ -4,10 +4,10 @@
         <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
     </head>
     <body>
-        <b>Welcome to skillsgraph.learnershape.com, <%= @authenticator.name %></b>
+        <b>Welcome to <%= ENV['LS_TEMPLATE_NAME'] %>, <%= @authenticator.name %></b>
 
         <p><%= @holder.name %> (<%= @holder.email %>) is inviting you to authenticate their skill of "<%= @credential.skill.name %>".</p>
 
-        <p>Create an account at <a href="https://skillsgraph.learnershape.com">skillsgraph.learnershape.com</a> to do so.</p>
+        <p>Create an account at <a href="<%= ENV['LS_TEMPLATE_URI'] %>"><%= ENV['LS_TEMPLATE_NAME']%></a> to do so.</p>
     </body>
 </html>

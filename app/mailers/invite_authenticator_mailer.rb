@@ -12,13 +12,13 @@ class InviteAuthenticatorMailer < ApplicationMailer
 
   def invite_existing
     mail(to: @authenticator.email,
-         subject: "New authentication request from skillsgraph.learnershape.com",
+         subject: "New authentication request from #{ENV['LS_TEMPLATE_NAME']}",
          template_name: "invite_existing")
   end
 
   def invite_new
     mail(to: @authenticator.email,
-         subject: "Welcome to skillsgraph.learnershape.com",
+         subject: "Welcome to #{ENV['LS_TEMPLATE_NAME']}",
          template_name: "invite_new")
   end
 end
