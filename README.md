@@ -23,6 +23,8 @@ LS_TEMPLATE_NAME
 LS_TEMPLATE_URI
 ```
 
+(If [ls-auth-api](https://github.com/LearnerShape/ls-auth-api) is deployed with docker-compose, `LS_AUTH_API_URI` can be set to `http://ls-auth-api-web-1:5000/`.)
+
 * `docker-compose build`
 * `docker-compose up`
 * `docker-compose run web rake db:create db:migrate`
