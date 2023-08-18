@@ -1,23 +1,37 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>SkillsGraph</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="robots" content="noindex">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+    <head>
+        <% if learnershape_build? %>
+            <title>LearnerShape SkillsGraph</title>
+        <% else %>
+            <title>SkillsGraph</title>
+        <% end %>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="robots" content="noindex">
+        <%= csrf_meta_tags %>
+        <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
+        <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+        <%= javascript_importmap_tags %>
+        <% if learnershape_build? %>
+            <% unless Rails.application.assets.find_asset("logo-icon.png").nil? %>
+                <%= favicon_link_tag asset_path("logo-icon.png") %>
+            <% end %>
+        <% end %>
+    </head>
 
-  <body>
-      <% if notice %>
-          <p class="alert alert-success"><%=  notice  %></p>
-      <% end %>
-      <% if alert %>
-          <p class="alert alert-danger"><%=  alert  %></p>
-      <% end %>
-      <%= yield %>
-  </body>
+    <body>
+        <% if learnershape_build? %>
+            <% unless Rails.application.assets.find_asset("logo.png").nil? %>
+                <p class='logo'><%= image_tag("logo", alt: "LearnerShape SkillsGraph", title: "LearnerShape SkillsGraph") %></p>
+            <% end %>
+        <% end %>
+        <% if notice %>
+            <p class="alert alert-success"><%=  notice  %></p>
+        <% end %>
+        <% if alert %>
+            <p class="alert alert-danger"><%=  alert  %></p>
+        <% end %>
+        <%= yield %>
+    </body>
 </html>

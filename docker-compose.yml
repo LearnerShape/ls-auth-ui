@@ -26,6 +26,7 @@ services:
       - LS_MAILER_SENDER_EMAIL=$LS_MAILER_SENDER_EMAIL
       - LS_TEMPLATE_NAME=$LS_TEMPLATE_NAME
       - LS_TEMPLATE_URI=$LS_TEMPLATE_URI
+      - LS_BUILD=$LS_BUILD
 networks:
   default:
     name: ui-api-bridge
