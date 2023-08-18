@@ -12,6 +12,8 @@ class CredentialsForOthersController < CredentialsController
                                                skill_name: skill.name,
                                                skill_type: skill.skill_type,
                                                skill_description: skill.description)
+    Rails.logger.info("CreateSkill: response from api: #{created_skill}")
+
     api_id = created_skill.fetch('id', nil)
     skill.update(api_id: api_id) if api_id
 
@@ -62,8 +64,10 @@ class CredentialsForOthersController < CredentialsController
     credential.mark_revoked
 
     authentications.each do |authentication|
-      ::Commands::UpdateCredential.revoke(id: authentication.api_id,
-                                          issuer_id: authentication.authenticator.api_id)
+      response = ::Commands::UpdateCredential.revoke(id: authentication.api_id,
+                                                     issuer_id: authentication.authenticator.api_id)
+      Rails.logger.info("UpdateCredential.revoke: response from api: #{response}")
+
     end
 
     redirect_to action: :index
@@ -92,6 +96,8 @@ class CredentialsForOthersController < CredentialsController
                                                            skill: skill.api_id,
                                                            issuer: creator.api_id,
                                                            status: 'Issued')
+      Rails.logger.info("CreateCredential: response from api: #{created_credential}")
+
       api_id = created_credential.fetch('id', nil)
       authentication.update(api_id: api_id) if api_id
 

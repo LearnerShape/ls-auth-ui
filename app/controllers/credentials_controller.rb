@@ -10,7 +10,12 @@ class CredentialsController < ApplicationController
   end
 
   def update_transaction_ids_by_holder(holder_api_id:)
-    rows = Queries::GetCredentials.do(holder_id: holder_api_id)['credentials'] || []
+    raw = Queries::GetCredentials.do(holder_id: holder_api_id)
+    # holder only used for logger statement; can remove query when debugged
+    holder = Contact.where(api_id: holder_api_id).first
+    Rails.logger.info("update_transaction_ids_by_holder, holder_api_id=#{holder_api_id}, holder=#{holder.inspect}")
+    Rails.logger.info("GetCredentials: response from api: #{raw}")
+    rows = raw['credentials'] || []
     return if rows.empty?
 
     update_authentications_with_transaction_ids(transaction_id_rows: rows)
@@ -39,4 +44,3 @@ class CredentialsController < ApplicationController
     end
   end
 end
-

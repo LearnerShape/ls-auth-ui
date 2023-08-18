@@ -14,6 +14,8 @@ class MyCredentialsController < CredentialsController
                                                skill_name: skill.name,
                                                skill_type: skill.skill_type,
                                                skill_description: skill.description)
+    Rails.logger.info("CreateSkill: response from api: #{created_skill}")
+
     api_id = created_skill.fetch('id', nil)
     skill.update(api_id: api_id) if api_id
 
@@ -28,6 +30,8 @@ class MyCredentialsController < CredentialsController
                                                            skill: skill.api_id,
                                                            issuer: holder.api_id,
                                                            status: 'Issued')
+      Rails.logger.info("CreateCredential (status 'Issued'): response from api: #{created_credential}")
+
       api_id = created_credential.fetch('id', nil)
       holder_authentication.update(api_id: api_id) if api_id
     end
@@ -85,6 +89,8 @@ class MyCredentialsController < CredentialsController
                                                            skill: credential.skill.api_id,
                                                            issuer: authenticator.api_id,
                                                            status: 'Requested')
+      Rails.logger.info("CreateCredential (status 'Requested'): response from api: #{created_credential}")
+
       api_id = created_credential.fetch('id', nil)
       authentication.update(api_id: api_id) if api_id
 
