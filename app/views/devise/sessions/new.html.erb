@@ -1,5 +1,7 @@
 <h2>Log in | or <%=  render "devise/shared/links" %></h2>
 
+<%= render "privacy_policy" %>
+
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
     <%= f.label :email %><br />

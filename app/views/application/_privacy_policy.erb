@@ -1,0 +1,5 @@
+<% if learnershape_build? %>
+    <% if ENV['LS_PRIVACY_POLICY_URI'].present? && ENV['LS_PRIVACY_POLICY_LABEL'].present? %>
+        <p><b><a href="<%= ENV['LS_PRIVACY_POLICY_URI'] %>" target="_blank"><%= ENV['LS_PRIVACY_POLICY_LABEL'] %></a></b></p>
+    <% end %>
+<% end %>

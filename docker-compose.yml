@@ -27,6 +27,8 @@ services:
       - LS_TEMPLATE_NAME=$LS_TEMPLATE_NAME
       - LS_TEMPLATE_URI=$LS_TEMPLATE_URI
       - LS_BUILD=$LS_BUILD
+      - LS_PRIVACY_POLICY_URI=$LS_PRIVACY_POLICY_URI
+      - LS_PRIVACY_POLICY_LABEL=$LS_PRIVACY_POLICY_LABEL
 networks:
   default:
     name: ui-api-bridge
