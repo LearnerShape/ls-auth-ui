@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_29_192350) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_21_125521) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,6 +47,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_29_192350) do
     t.index ["skill_id"], name: "index_credentials_on_skill_id"
   end
 
+  create_table "logos", force: :cascade do |t|
+    t.bigint "creator_id"
+    t.string "status", default: "uploaded"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_logos_on_creator_id"
+  end
+
   create_table "programs", force: :cascade do |t|
     t.bigint "creator_id"
     t.bigint "skill_id"
@@ -74,6 +82,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_29_192350) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "api_id"
+    t.bigint "logo_id"
+    t.index ["logo_id"], name: "index_skills_on_logo_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -91,6 +101,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_29_192350) do
 
   add_foreign_key "authentications", "contacts", column: "authenticator_id"
   add_foreign_key "credentials", "contacts", column: "holder_id"
+  add_foreign_key "logos", "users", column: "creator_id"
   add_foreign_key "programs", "contacts", column: "creator_id"
   add_foreign_key "public_views", "contacts", column: "owner_id"
 end
