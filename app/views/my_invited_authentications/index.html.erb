@@ -10,6 +10,9 @@
     <% @invited_authentications.each do |authentication| %>
         <li>
             <% credential = authentication.credential %>
+            <% if credential.skill.logo && credential.skill.logo.image.attached? %>
+                <%= image_tag credential.skill.logo.image %><br/>
+            <% end  %>
             <b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
             <% if credential.skill.description.present? %>
                 <b>Description:</b> <%= credential.skill.description %><br/>
@@ -33,6 +36,9 @@
 <% @accepted_authentications.each do |authentication| %>
     <li>
         <% credential = authentication.credential %>
+        <% if crendetial.skill.logo && credential.skill.logo.image.attached? %>
+            <%= image_tag credential.skill.logo.image %><br/>
+        <% end  %>
         <b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
         <% if credential.skill.description.present? %>
             <b>Description:</b> <%= credential.skill.description %><br/>
@@ -52,6 +58,9 @@
     <% @refused_authentications.each do |authentication| %>
         <li>
             <% credential = authentication.credential %>
+            <% if credential.skill.logo && credential.skill.logo.image.attached? %>
+                <%= image_tag credential.skill.logo.image %><br/>
+            <% end  %>
             <b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
             <% if credential.skill.description.present? %>
                 <b>Description:</b> <%= credential.skill.description %><br/>

@@ -26,6 +26,10 @@
         <%= form.text_area :participants %>
     </div>
 
+    <div class="field">
+        <%= form.label :image, "Logo" %><br/>
+        <%= form.file_field :image %>
+    </div>
 
     <div class="actions">
         <%=  form.submit "Create" %>

@@ -17,6 +17,11 @@ class CredentialsForOthersController < CredentialsController
     api_id = created_skill.fetch('id', nil)
     skill.update(api_id: api_id) if api_id
 
+    logo = Logo.create(creator_id: current_user.id)
+    logo.image.attach(params[:image])
+
+    skill.update(logo_id: logo.id)
+
     Program.create(creator: creator, skill: skill)
 
     credentials_from_participants(creator: creator,

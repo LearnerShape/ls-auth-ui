@@ -3,7 +3,11 @@
 <h1>Add Authenticators to Credential</h1>
 
 <ul>
-    <li><b>Name:</b> <%= @credential.skill.name %> (<%= @credential.skill.skill_type %>)<br/>
+    <li>
+        <% if @credential.skill.logo && @credential.skill.logo.image.attached? %>
+            <%= image_tag @credential.skill.logo.image %><br/>
+        <% end  %>
+        <b>Name:</b> <%= @credential.skill.name %> (<%= @credential.skill.skill_type %>)<br/>
         <% if @credential.skill.description.present? %>
             <b>Description:</b> <%= @credential.skill.description %><br/>
         <% end %>
@@ -28,4 +32,3 @@
         <% end %>
     </li>
 </ul>
-

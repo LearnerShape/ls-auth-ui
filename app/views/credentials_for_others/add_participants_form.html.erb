@@ -4,7 +4,11 @@
 
 <ul>
     <% skill = @program.skill %>
-    <li><b>Name:</b> <%= skill.name %> (<%= skill.skill_type %>)<br/>
+    <li>
+        <% if skill.logo && skill.logo.image.attached? %>
+            <%= image_tag skill.logo.image %><br/>
+        <% end  %>
+        <b>Name:</b> <%= skill.name %> (<%= skill.skill_type %>)<br/>
         <% if skill.description.present? %>
             <b>Description:</b> <%= skill.description %>
         <% end %>

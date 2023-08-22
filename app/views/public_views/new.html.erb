@@ -10,7 +10,11 @@
     <%=  form.fields_for :credentials_to_add do |form| %>
 <ul>
     <% @my_credentials.each do |credential| %>
-        <li><%= form.text_field credential.id, { size: "4" } %><b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
+        <li><%= form.text_field credential.id, { size: "4" } %>
+            <% if credential.skill.logo && credential.skill.logo.image.attached? %>
+                <%= image_tag credential.skill.logo.image %><br/>
+            <% end  %>
+            <b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
             <% if credential.skill.description.present? %>
                 <b>Description:</b> <%= credential.skill.description %><br/>
             <% end %>
