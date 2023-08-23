@@ -1,0 +1,41 @@
+<% if program.credentials.is_authenticated.any? %>
+    <p>
+        <b>Participants:</b>
+        <ul>
+            <% program.credentials.is_authenticated.each do |credential| %>
+                <li><%= credential.try(:holder).try(:email) %> |
+                    <% authentication = credential.authentications.where(authenticator: @creator).first %>
+                    <% if authentication.submission_transaction_id %>
+                        <b>submission:</b>
+                        <%= link_to authentication.submission_transaction_id, "https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=#{authentication.submission_transaction_id}", target: "_blank" %>
+                        |
+                    <% end %>
+                    [<%= link_to "Revoke", revoke_credentials_for_other_path(credential.id) %>]</li>
+            <% end %>
+        </ul>
+    </p>
+<% end %>
+
+<% if program.credentials.is_revoked.any? %>
+    <p><b>Revoked Participants:</b>
+        <ul>
+            <% program.credentials.is_revoked.each do |credential| %>
+                <li><%= credential.try(:holder).try(:email) %> |
+                    <% authentication = credential.authentications.where(authenticator: @creator).first %>
+                    <% if authentication.submission_transaction_id %>
+                        <b>submission:</b>
+                        <%= link_to authentication.submission_transaction_id, "https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=#{authentication.submission_transaction_id}", target: "_blank" %>
+                        |
+                    <% end %>
+                    <% if authentication.revocation_transaction_id %>
+                        <b>revocation:</b>
+                        <%= link_to authentication.revocation_transaction_id, "https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=#{authentication.revocation_transaction_id}", target: "_blank" %>
+                        |
+                    <% end %>
+                </li>
+            <% end %>
+        </ul>
+    </p>
+<% end %>
+
+<p><%= link_to "Add Participants", add_participants_form_credentials_for_other_path(program.id) %></p>

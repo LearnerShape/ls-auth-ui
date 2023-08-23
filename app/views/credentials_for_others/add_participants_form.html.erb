@@ -2,24 +2,20 @@
 
 <h1>Add Participants</h1>
 
-<ul>
-    <% skill = @program.skill %>
-    <li>
-        <% if skill.logo && skill.logo.image.attached? %>
-            <%= image_tag skill.logo.image %><br/>
-        <% end  %>
-        <b>Name:</b> <%= skill.name %> (<%= skill.skill_type %>)<br/>
-        <% if skill.description.present? %>
-            <b>Description:</b> <%= skill.description %>
-        <% end %>
-        <b>Added:</b> <%= skill.created_at.strftime("%-d %B %Y:%k:%M") %><br/>
-        <b>Participants:</b>
-        <ul class="compressed">
-            <% @program.credentials.map(&:holder).each do |participant| %>
-                <li><%= participant.email %></li>
-            <% end %>
-        </ul>
-        <br/>
+<% skill = @program.skill %>
+<div class="credential">
+    <%= render "logo", logo: skill.logo %>
+    <div class="details">
+        <%= render "skill_details", skill: skill %>
+        <p><b>Participants:</b>
+            <ul>
+                <% @program.credentials.map(&:holder).each do |participant| %>
+                    <li><%= participant.email %></li>
+                <% end %>
+            </ul>
+        </p>
+    </div>
+</div>
         <%= form_with url: add_participants_credentials_for_other_path do |form| %>
             <div class="field">
                 <%= form.label :participants, "Participants, one per line, as: 'name <email>':" %><br/>

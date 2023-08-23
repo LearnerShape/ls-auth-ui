@@ -1,0 +1,19 @@
+<p><b>Authentications:</b>
+    <ul>
+        <% credential.authentications.order(:status).each do |authentication| %>
+            <li><%= authentication.authenticator.email %> | <%= authentication.status %> |
+                <% if authentication.submission_transaction_id %>
+                    <b>submission:</b>
+                    <%= link_to authentication.submission_transaction_id, "https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=#{authentication.submission_transaction_id}", target: "_blank" %>
+                    |
+                <% end %>
+                <% if authentication.revocation_transaction_id %>
+                    <b>revocation:</b>
+                    <%= link_to authentication.revocation_transaction_id, "https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=#{authentication.revocation_transaction_id}", target: "_blank" %>
+                <% end %>
+            </li>
+        <% end %>
+    </ul>
+</p>
+
+<p><%= link_to "Add Authenticators", add_authenticators_form_my_credential_path(credential.id) %></p>

@@ -1,0 +1,7 @@
+<p><b>Authentications:</b>
+    <ul>
+        <% credential.authentications.is_accepted.each do |authentication| %>
+            <li><%= authentication.authenticator.email %> | <%= authentication.status %></li>
+        <% end %>
+    </ul>
+</p>

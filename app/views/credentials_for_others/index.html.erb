@@ -1,53 +1,14 @@
 <p>[<%= link_to "Home", root_path %>] <%= current_user.name %> [<%= link_to "Log out", destroy_user_session_path, data: { "turbo-method": :delete } %>] [<a href="https://learnershape.gitbook.io/learnershape-skillsgraph/" target="_blank">Documentation</a>]</p>
 
-<h1>Credentials (For Others)</h1>
+<h1>Credentials</h1>
 
-<ul>
     <% @programs.each do |program| %>
         <% skill = program.skill %>
-        <li>
-            <% if skill.logo && skill.logo.image.attached? %>
-                <%= image_tag skill.logo.image %><br/>
-            <% end  %>
-            <b>Name:</b> <%= skill.name %> (<%= skill.skill_type %>)<br/>
-            <% if skill.description.present? %>
-                <b>Description:</b> <%= skill.description %><br/>
-            <% end %>
-            <b>Added:</b> <%= skill.created_at.strftime("%-d %B %Y:%k:%M") %><br/>
-            <b>Participants:</b>
-            <ul class="compressed">
-                <% program.credentials.is_authenticated.each do |credential| %>
-                    <li><%= credential.try(:holder).try(:email) %> |
-                        <% authentication = credential.authentications.where(authenticator: @creator).first %>
-                        <% if authentication.submission_transaction_id %>
-                            <b>submission:</b>
-                            <%= link_to authentication.submission_transaction_id, "https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=#{authentication.submission_transaction_id}", target: "_blank" %>
-                            |
-                        <% end %>
-                        [<%= link_to "Revoke", revoke_credentials_for_other_path(credential.id) %>]</li>
-                <% end %>
-            </ul>
-            <% if program.credentials.is_revoked.any? %>
-                <b>Revoked Participants:</b>
-                <ul class="compressed">
-                    <% program.credentials.is_revoked.each do |credential| %>
-                        <li><%= credential.try(:holder).try(:email) %> |
-                            <% authentication = credential.authentications.where(authenticator: @creator).first %>
-                            <% if authentication.submission_transaction_id %>
-                                <b>submission:</b>
-                                <%= link_to authentication.submission_transaction_id, "https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=#{authentication.submission_transaction_id}", target: "_blank" %>
-                                |
-                            <% end %>
-                            <% if authentication.revocation_transaction_id %>
-                                <b>revocation:</b>
-                                <%= link_to authentication.revocation_transaction_id, "https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=#{authentication.revocation_transaction_id}", target: "_blank" %>
-                                |
-                            <% end %>
-                        </li>
-                    <% end %>
-                </ul>
-            <% end %>
-            <%= link_to "Add Participants", add_participants_form_credentials_for_other_path(program.id) %>
-        </li>
+        <div class="credential">
+            <%= render "logo", logo: skill.logo %>
+            <div class="details">
+                <%= render "skill_details", skill: skill %>
+                <%= render "participants", program: program %>
+            </div>
+        </div>
     <% end %>
-</ul>

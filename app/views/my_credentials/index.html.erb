@@ -2,34 +2,13 @@
 
 <h1> My Credentials</h1>
 
-<ul>
 <% @my_credentials.each do |credential| %>
-    <li>
-        <% if credential.skill.logo && credential.skill.logo.image.attached? %>
-            <%= image_tag credential.skill.logo.image %><br/>
-        <% end  %>
-        <b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
-        <% if credential.skill.description.present? %>
-            <b>Description:</b> <%= credential.skill.description %><br/>
-        <% end %>
-        <b>Added:</b> <%= credential.created_at.strftime("%-d %B %Y:%k:%M") %><br/>
-        <b>Authentications:</b>
-        <ul class="compressed">
-            <% credential.authentications.order(:status).each do |authentication| %>
-                <li><%= authentication.authenticator.email %> | <%= authentication.status %> |
-                    <% if authentication.submission_transaction_id %>
-                        <b>submission:</b>
-                        <%= link_to authentication.submission_transaction_id, "https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=#{authentication.submission_transaction_id}", target: "_blank" %>
-                        |
-                    <% end %>
-                    <% if authentication.revocation_transaction_id %>
-                        <b>revocation:</b>
-                        <%= link_to authentication.revocation_transaction_id, "https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=#{authentication.revocation_transaction_id}", target: "_blank" %>
-                    <% end %>
-                </li>
-            <% end %>
-        </ul>
-        <%= link_to "Add Authenticators", add_authenticators_form_my_credential_path(credential.id) %>
-    </li>
+    <div class="credential">
+        <% skill = credential.skill %>
+        <%= render "logo", logo: skill.logo %>
+        <div class="details">
+            <%= render "skill_details", skill: skill %>
+            <%= render "authentications", credential: credential %>
+        </div>
+    </div>
 <% end %>
-</ul>

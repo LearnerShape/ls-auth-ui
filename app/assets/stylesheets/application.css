@@ -16,6 +16,25 @@
 body { font-family: Arial, Helvetica, sans-serif; margin: 2em }
 .field { padding-bottom: 1em; }
 li { padding-bottom: 1em; }
-ul.compressed li { padding-bottom: 0; }
+ul.compressed li { padding-top: 0em; padding-bottom: 0em; }
 .logo img { height: 40px; width: 360px; }
 h1 { font-size: 1.4em }
+
+.credential { margin-bottom: 2em; display: grid; grid-template-columns: 210px auto; }
+.credential .logo { display: grid-column; }
+.credential .logo img { height: 200px; width: 200px; }
+.credential .logo-empty { display: grid-column; border: 2px solid black; height: 200px; width: 200px; }
+.credential .details { display: grid-column; }
+.credential .details p { margin: 0em; padding: 0em; padding-bottom: 0.5em; }
+.credential .details ul { margin: 0em; padding: 0em; list-style-type: none; }
+.credential .details ul li { margin: 0em; padding: 0em; }
+
+.ordered-credential { margin-bottom: 2em; display: grid; grid-template-columns: 70px 210px auto; }
+.ordered-credential .ordering { display: grid-column }
+.ordered-credential .logo { display: grid-column; }
+.ordered-credential .logo img { height: 200px; width: 200px; }
+.ordered-credential .logo-empty { display: grid-column; border: 2px solid black; height: 200px; width: 200px; }
+.ordered-credential .details { display: grid-column; }
+.ordered-credential .details p { margin: 0em; padding: 0em; padding-bottom: 0.5em; }
+.ordered-credential .details ul { margin: 0em; padding: 0em; list-style-type: none; }
+.ordered-credential .details ul li { margin: 0em; padding: 0em; }

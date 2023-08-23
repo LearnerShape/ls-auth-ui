@@ -1,0 +1,8 @@
+<% if logo && logo.image.attached? %>
+    <div class="logo">
+        <%= image_tag logo.image %>
+    </div>
+<% else %>
+    <div class="logo-empty">
+    </div>
+<% end  %>

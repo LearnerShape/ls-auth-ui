@@ -1,0 +1,7 @@
+<p><b>Name:</b> <%= skill.name %> (<%= skill.skill_type %>)</p>
+
+<% if skill.description.present? %>
+    <p><b>Description:</b> <%= skill.description %></p>
+<% end %>
+
+<p><b>Added:</b> <%= skill.created_at.strftime("%-d %B %Y (%k:%M)") %></p>

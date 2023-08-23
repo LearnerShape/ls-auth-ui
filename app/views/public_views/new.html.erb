@@ -8,26 +8,22 @@
 
 <%= form_with url: public_views_path do |form| %>
     <%=  form.fields_for :credentials_to_add do |form| %>
-<ul>
-    <% @my_credentials.each do |credential| %>
-        <li><%= form.text_field credential.id, { size: "4" } %>
-            <% if credential.skill.logo && credential.skill.logo.image.attached? %>
-                <%= image_tag credential.skill.logo.image %><br/>
-            <% end  %>
-            <b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
-            <% if credential.skill.description.present? %>
-                <b>Description:</b> <%= credential.skill.description %><br/>
-            <% end %>
-            <b>Added:</b> <%= credential.created_at.strftime("%-d %B %Y:%k:%M") %><br/>
-            <b>Authentications:</b>
-            <ul class="compressed">
-                <% credential.authentications.order(:status).each do |authentication| %>
-                    <li><%= authentication.authenticator.email %> | <%= authentication.status %></li>
-                <% end %>
-            </ul></li>
+
+        <% @my_credentials.each do |credential| %>
+            <div class="ordered-credential">
+                <% skill = credential.skill %>
+                <div class="ordering">
+                    <%= form.text_field credential.id, { size: "4" } %>
+                </div>
+                <%=  render "logo", logo: skill.logo %>
+                <div class="details">
+                    <%= render "skill_details", skill: skill %>
+                    <%= render "read_authentications", credential: credential %>
+                </div>
+            </div>
+        <% end %>
     <% end %>
-</ul>
-<% end %>
-<%=  form.submit "Create" %>
+
+    <%=  form.submit "Create" %>
 
 <% end %>

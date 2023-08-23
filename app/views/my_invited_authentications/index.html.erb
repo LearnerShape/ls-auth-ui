@@ -6,24 +6,20 @@
     <p>No authentications awaiting acceptance or refusal</p>
 <% end %>
 
-<ul>
-    <% @invited_authentications.each do |authentication| %>
-        <li>
-            <% credential = authentication.credential %>
-            <% if credential.skill.logo && credential.skill.logo.image.attached? %>
-                <%= image_tag credential.skill.logo.image %><br/>
-            <% end  %>
-            <b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
-            <% if credential.skill.description.present? %>
-                <b>Description:</b> <%= credential.skill.description %><br/>
-            <% end %>
-            <b>Added:</b> <%= credential.created_at.strftime("%-d %B %Y:%k:%M") %>
-            <b>Claimant:</b> <%= credential.holder.email %><br/>
+<% @invited_authentications.each do |authentication| %>
+    <div class="credential">
+        <% credential = authentication.credential %>
+        <% skill = credential.skill %>
+        <%= render "logo", logo: skill.logo %>
+        <div class="details">
+            <%= render "skill_details", skill: skill %>
+            <p><b>Claimant:</b> <%= credential.holder.email %><br/>
             [ <%= link_to "Accept", accept_my_invited_authentication_path(authentication) %> ]
             [ <%= link_to "Refuse", refuse_my_invited_authentication_path(authentication) %> ]
-        <br/></li>
-    <% end %>
-</ul>
+            </p>
+        </div>
+    </div>
+<% end %>
 
 <h2>Already accepted:</h2>
 
@@ -32,21 +28,17 @@
 <% end %>
 
 
-<ul>
 <% @accepted_authentications.each do |authentication| %>
-    <li>
+    <div class="credential">
         <% credential = authentication.credential %>
-        <% if crendetial.skill.logo && credential.skill.logo.image.attached? %>
-            <%= image_tag credential.skill.logo.image %><br/>
-        <% end  %>
-        <b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
-        <% if credential.skill.description.present? %>
-            <b>Description:</b> <%= credential.skill.description %><br/>
-        <% end %>
-        <b>Claimant:</b> <%= credential.holder.email %>
-    </li>
+        <% skill = credential.skill %>
+        <%= render "logo", logo: skill.logo %>
+        <div class="details">
+            <%= render "skill_details", skill: skill %>
+            <p><b>Claimant:</b> <%= credential.holder.email %></p>
+        </div>
+    </div>
 <% end %>
-</ul>
 
 <h2>Already refused:</h2>
 
@@ -54,18 +46,14 @@
     <p>None yet</p>
 <% end %>
 
-<ul>
-    <% @refused_authentications.each do |authentication| %>
-        <li>
-            <% credential = authentication.credential %>
-            <% if credential.skill.logo && credential.skill.logo.image.attached? %>
-                <%= image_tag credential.skill.logo.image %><br/>
-            <% end  %>
-            <b>Name:</b> <%= credential.skill.name %> (<%= credential.skill.skill_type %>)<br/>
-            <% if credential.skill.description.present? %>
-                <b>Description:</b> <%= credential.skill.description %><br/>
-            <% end %>
-            <b>Claimant:</b> <%= credential.holder.email %>
-        </li>
-    <% end %>
-</ul>
+<% @refused_authentications.each do |authentication| %>
+    <div class="credential">
+        <% credential = authentication.credential %>
+        <% skill = credential.skill %>
+        <%= render "logo", logo: skill.logo %>
+        <div class="details">
+            <%= render "skill_details", skill: skill %>
+            <p><b>Claimant:</b> <%= credential.holder.email %></p>
+        </div>
+    </div>
+<% end %>
