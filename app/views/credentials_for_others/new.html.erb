@@ -22,13 +22,15 @@
     </div>
 
     <div class="field">
-        <%= form.label :participants, "Participants, one per line, as 'name <email>'" %><br/>
-        <%= form.text_area :participants %>
-    </div>
-
-    <div class="field">
         <%= form.label :image, "Logo" %><br/>
         <%= form.file_field :image %>
+    </div>
+
+    <div class="break"></div>
+
+    <div class="field">
+        <%= form.label :participants, "(optional) Participants, one per line, as 'name <email>'" %><br/>
+        <%= form.text_area :participants %>
     </div>
 
     <div class="actions">

@@ -20,6 +20,26 @@ ul.compressed li { padding-top: 0em; padding-bottom: 0em; }
 .logo img { height: 40px; width: 360px; }
 h1 { font-size: 1.4em }
 
+ul.home {}
+ul.home li { padding-bottom: 0em; }
+ul.home ul { padding: 0em 1em 1em 1em; }
+ul.home ul li { padding: 0em 1em; }
+
+input[type='text'] { width: 400px; }
+input[type='email'] { width: 400px; }
+input[type='password'] { width: 400px; }
+
+select { width: 408px; }
+textarea { width: 400px; }
+
+div.break { width: 400px; border-bottom: 1px solid black; margin-bottom: 1em; }
+
+input[type='submit'] { padding: 0.2em 1em; color: white; background-color: #4193c0; border-radius: 24px; font-size: 1.4em; font-weight: bold; }
+input[type='submit']:hover { cursor: pointer }
+
+input[type='file']::file-selector-button { color: white; background-color: #72c6f3 }
+input[type='file']:hover { cursor: pointer }
+
 .credential { margin-bottom: 2em; display: grid; grid-template-columns: 210px auto; }
 .credential .logo { display: grid-column; }
 .credential .logo img { height: 200px; width: 200px; }

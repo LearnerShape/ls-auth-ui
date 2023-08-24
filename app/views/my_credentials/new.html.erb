@@ -22,13 +22,15 @@
     </div>
 
     <div class="field">
-        <%= form.label :authenticators, "Authenticators, one per line, as: 'name <email>':" %><br/>
-        <%= form.text_area :authenticators %>
-    </div>
-
-    <div class="field">
         <%= form.label :image, "Logo" %><br/>
         <%= form.file_field :image %>
+    </div>
+
+    <div class="break"></div>
+
+    <div class="field">
+        <%= form.label :authenticators, "(optional) Authenticators, one per line, as 'name <email>':" %><br/>
+        <%= form.text_area :authenticators %>
     </div>
 
     <div class="actions">
