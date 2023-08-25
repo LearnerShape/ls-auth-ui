@@ -20,11 +20,6 @@ ul.compressed li { padding-top: 0em; padding-bottom: 0em; }
 .logo img { height: 40px; width: 360px; }
 h1 { font-size: 1.4em }
 
-ul.home {}
-ul.home li { padding-bottom: 0em; }
-ul.home ul { padding: 0em 1em 1em 1em; }
-ul.home ul li { padding: 0em 1em; }
-
 input[type='text'] { width: 400px; }
 input[type='email'] { width: 400px; }
 input[type='password'] { width: 400px; }
