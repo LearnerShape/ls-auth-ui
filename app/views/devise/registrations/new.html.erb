@@ -1,12 +1,12 @@
-<h2>Sign up</h2>
-
-<p>or <%= render "devise/shared/links" %></p>
+<div class="header">
+    <span class="h2">Sign up</span>
+    or <%= link_to "Log in", new_session_path(resource_name), class: 'button' %>
+</div>
 
 <%= render "privacy_policy" %>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
-
   <div class="field">
     <%= f.label :name %><br/>
     <%= f.text_field :name, autofocus: true, autocomplete: "name" %>

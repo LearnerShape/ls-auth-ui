@@ -1,6 +1,6 @@
 <%= render "home_header" %>
 
-<h3>As Applicant</h3>
+<p class="h2">As Applicant</p>
 
 <ul class="home">
     <li><%= link_to "Create Credential", new_my_credential_path, class: "wide-button" %></li>
@@ -9,14 +9,14 @@
     <li><%= link_to "List Public Views", public_views_path, class: "wide-button" %></li>
 </ul>
 
-<h3>As Assigning Body</h3>
+<p class="h2">As Assigning Body</p>
 
 <ul class="home">
     <li><%= link_to "Create Credential", new_credentials_for_other_path, class: "wide-button" %></li>
     <li><%= link_to "List Credentials (and Add Participants)", credentials_for_others_path, class: "wide-button" %></li>
 </ul>
 
-<h3>As Authenticator</h3>
+<p class="h2">As Authenticator</p>
 
 <ul class="home">
     <li><%= link_to "List Authentication Requests (#{@invited_authentications_count} unanswered)", my_invited_authentications_path, class: "wide-button" %>
