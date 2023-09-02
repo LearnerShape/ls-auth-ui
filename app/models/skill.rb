@@ -15,11 +15,7 @@ class Skill < ApplicationRecord
   end
 
   def program
-    Program.where(skill: self).first
-  end
-
-  def credential
-    credentials.first
+    Program.where(skill_id: id).first
   end
 
   private
