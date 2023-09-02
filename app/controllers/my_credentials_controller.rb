@@ -76,6 +76,26 @@ class MyCredentialsController < CredentialsController
     redirect_to action: :index
   end
 
+  def add_logo_form
+    holder = current_user.contact
+    @credential = Credential.where(id: params[:id]).first
+    return head(:forbidden) if @credential.holder != holder
+  end
+
+  def add_logo
+    holder = current_user.contact
+    credential = Credential.where(id: params[:id]).first
+    return head(:forbidden) if credential.holder != holder
+
+    logo = Logo.create(creator_id: current_user.id)
+    logo.image.attach(params[:image])
+
+    skill = credential.skill
+    skill.update(logo_id: logo.id)
+
+    redirect_to action: :index
+  end
+
   private
 
   def retrieve_or_build_authenticators_from_params

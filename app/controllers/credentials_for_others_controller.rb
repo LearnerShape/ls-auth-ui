@@ -58,6 +58,26 @@ class CredentialsForOthersController < CredentialsController
     redirect_to action: :index
   end
 
+  def add_logo_form
+    creator = current_user.contact
+    @program = Program.where(id: params[:id]).first
+    return head(:forbidden) if @program.creator != creator
+  end
+
+  def add_logo
+    creator = current_user.contact
+    program = Program.where(id: params[:id]).first
+    return head(:forbidden) if program.creator != creator
+
+    logo = Logo.create(creator_id: current_user.id)
+    logo.image.attach(params[:image])
+
+    skill = program.skill
+    skill.update(logo_id: logo.id)
+
+    redirect_to action: :index
+  end
+
   def revoke
     creator = current_user.contact
     credential = Credential.where(id: params[:id]).first

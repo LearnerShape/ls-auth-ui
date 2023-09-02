@@ -4,7 +4,7 @@
 
 <div class="credential">
     <% skill = @credential.skill %>
-    <%= render "logo", logo: skill.logo %>
+    <%= render "logo_external", skill: skill %>
     <div class="details">
         <%= render "skill_details", skill: skill %>
         <p><b>Authentications:</b>

@@ -54,6 +54,7 @@ input[type='file']:hover { cursor: pointer }
 .credential .logo { display: grid-column; }
 .credential .logo img { height: 200px; width: 200px; }
 .credential .logo-empty { display: grid-column; border: 2px solid black; height: 200px; width: 200px; }
+.credential .logo-empty p { margin-top: 2em; margin-left: 2em; }
 .credential .details { display: grid-column; }
 .credential .details p { margin: 0em; padding: 0em; padding-bottom: 0.5em; }
 .credential .details ul { margin: 0em; padding: 0em; list-style-type: none; }

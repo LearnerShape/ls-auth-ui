@@ -1,6 +1,6 @@
-<% if logo && logo.image.attached? %>
+<% if skill.has_image? %>
     <div class="logo">
-        <%= image_tag logo.image %>
+        <%= image_tag skill.image %>
     </div>
 <% else %>
     <div class="logo-empty">

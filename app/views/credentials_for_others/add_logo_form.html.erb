@@ -1,0 +1,22 @@
+<%= render "non_home_header" %>
+
+<h1>Add Logo</h1>
+
+<div class="credential">
+    <% skill = @program.skill %>
+    <%= render "logo_external", skill: skill %>
+    <div class="details">
+        <%= render "skill_details", skill: skill %>
+    </div>
+</div>
+
+<%= form_with url: add_logo_credentials_for_other_path do |form| %>
+    <div class="field">
+        <%= form.label :image, "Logo" %><br/>
+        <%= form.file_field :image %>
+    </div>
+
+    <div class="actions">
+        <%=  form.submit "Add Logo" %>
+    </div>
+<% end %>

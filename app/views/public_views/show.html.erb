@@ -6,7 +6,7 @@
     <% @credentials.each do |credential| %>
         <div class="credential">
             <% skill = credential.skill %>
-            <%= render "logo", logo: skill.logo %>
+            <%= render "logo_external", skill: skill %>
             <div class="details">
                 <%= render "skill_details", skill: skill %>
                 <%= render "accepted_authentications", credential: credential %>

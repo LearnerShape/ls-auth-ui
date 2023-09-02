@@ -5,12 +5,16 @@ Rails.application.routes.draw do
     member do
       get 'add_authenticators_form'
       post 'add_authenticators'
+      get 'add_logo_form'
+      post 'add_logo'
     end
   end
   resources :credentials_for_others, only: [:new, :create, :index] do
     member do
       get 'add_participants_form'
       post 'add_participants'
+      get 'add_logo_form'
+      post 'add_logo'
       get 'revoke'
     end
   end
