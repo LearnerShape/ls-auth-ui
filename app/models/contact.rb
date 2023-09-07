@@ -2,7 +2,7 @@ class Contact < ApplicationRecord
   belongs_to :user, optional: true
 
   def self.retrieve_or_build(name:, email:)
-    contact = Contact.where(name: name, email: email).first
+    contact = Contact.where(email: email).first
     return contact if contact
 
     contact = Contact.create(name: name, email: email)
