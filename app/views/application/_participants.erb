@@ -3,14 +3,12 @@
         <b>Participants:</b>
         <ul>
             <% program.credentials.is_authenticated.each do |credential| %>
-                <li><%= credential.try(:holder).try(:email) %> |
+                <li>
+                    <%= credential.try(:holder).try(:email) %> |
                     <% authentication = credential.authentications.where(authenticator: @creator).first %>
-                    <% if authentication.submission_transaction_id %>
-                        <b>submission:</b>
-                        <%= link_to authentication.submission_transaction_id, "https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=#{authentication.submission_transaction_id}", target: "_blank" %>
-                        |
-                    <% end %>
-                    [<%= link_to "Revoke", revoke_credentials_for_other_path(credential.id) %>]</li>
+                    <%= render "explorer_link", id: authentication.submission_transaction_id %>
+                    [<%= link_to "Revoke", revoke_credentials_for_other_path(credential.id) %>]
+                </li>
             <% end %>
         </ul>
     </p>
@@ -20,18 +18,11 @@
     <p><b>Revoked Participants:</b>
         <ul>
             <% program.credentials.is_revoked.each do |credential| %>
-                <li><%= credential.try(:holder).try(:email) %> |
+                <li>
+                    <%= credential.try(:holder).try(:email) %> |
                     <% authentication = credential.authentications.where(authenticator: @creator).first %>
-                    <% if authentication.submission_transaction_id %>
-                        <b>submission:</b>
-                        <%= link_to authentication.submission_transaction_id, "https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=#{authentication.submission_transaction_id}", target: "_blank" %>
-                        |
-                    <% end %>
-                    <% if authentication.revocation_transaction_id %>
-                        <b>revocation:</b>
-                        <%= link_to authentication.revocation_transaction_id, "https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=#{authentication.revocation_transaction_id}", target: "_blank" %>
-                        |
-                    <% end %>
+                    <%= render "explorer_link", id: authentication.submission_transaction_id %>
+                    <%= render "explorer_link_revoked", id: authentication.revocation_transaction_id %>
                 </li>
             <% end %>
         </ul>

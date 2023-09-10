@@ -1,7 +1,12 @@
 <p><b>Authentications:</b>
     <ul>
         <% credential.authentications.order(:status).each do |authentication| %>
-            <li><%= authentication.authenticator.email %> | <%= authentication.status %></li>
+            <li>
+                <%= authentication.authenticator.email %> |
+                <%= authentication.status %> |
+                <%= render "explorer_link", id: authentication.submission_transaction_id %>
+                <%= render "explorer_link_revoked", id: authentication.revocation_transaction_id %>
+            </li>
         <% end %>
     </ul>
 </p>

@@ -1,7 +1,11 @@
 <p><b>Authentications:</b>
     <ul>
         <% credential.authentications.is_accepted.each do |authentication| %>
-            <li><%= authentication.authenticator.email %> | <%= authentication.status %></li>
+            <li>
+                <%= authentication.authenticator.email %> |
+                <%= authentication.status %> |
+                <%= render "explorer_link", id: authentication.submission_transaction_id %>
+            </li>
         <% end %>
     </ul>
 </p>
