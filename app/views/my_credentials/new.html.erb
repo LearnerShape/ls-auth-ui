@@ -5,7 +5,10 @@
 <%= form_with url: my_credentials_path do |form| %>
     <div class="field">
         <%= form.label :name, "Name:" %><br/>
-        <%= form.text_field :name  %>
+        <%= form.text_field :name, value: params[:name], class: "#{'invalid-border' if @invalid_name}" %>
+        <% if @invalid_name  %>
+            <div class="invalid-message">Name cannot be blank</div>
+        <% end %>
     </div>
 
     <div class="field">
@@ -13,12 +16,12 @@
         <%= form.select :type, [["Education", "EducationCredential"],
                                 ["General", "GeneralCredential"],
                                 ["Work", "WorkCredential"]],
-                               selected: "GeneralCredential" %>
+                               selected: "#{params[:type] || 'GeneralCredential'}" %>
     </div>
 
     <div class="field">
         <%= form.label :description, "Description:" %><br/>
-        <%= form.text_area :description %>
+        <%= form.text_area :description, value: params['description'] %>
     </div>
 
     <div class="field">
@@ -30,7 +33,10 @@
 
     <div class="field">
         <%= form.label :authenticators, "(optional) Authenticators, one per line, as 'name <email>':" %><br/>
-        <%= form.text_area :authenticators %>
+        <%= form.text_area :authenticators, class: "#{'invalid-border' if @invalid_authenticators}", value: params[:authenticators] %>
+        <% if @invalid_authenticators %>
+            <div class="invalid-message">Authenticators must be one per line in the form 'name &lt;email&gt;'</div>
+        <% end  %>
     </div>
 
     <div class="actions">

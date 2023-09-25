@@ -3,6 +3,12 @@ class MyCredentialsController < CredentialsController
   end
 
   def create
+    @invalid_name = params[:name].blank?
+    @invalid_authenticators = NameAndEmail.invalid?(params[:authenticators])
+    if @invalid_name || @invalid_authenticators
+      render :new, status: :unprocessable_entity and return
+    end
+
     holder = current_user.contact
     authenticators = retrieve_or_build_authenticators_from_params
 
@@ -64,6 +70,14 @@ class MyCredentialsController < CredentialsController
   end
 
   def add_authenticators
+    @invalid_authenticators = NameAndEmail.invalid?(params[:authenticators])
+    if @invalid_authenticators
+      holder = current_user.contact
+      @credential = Credential.where(id: params[:id]).first
+      return head(:forbidden) if @credential.holder != holder
+      render :add_authenticators_form, status: :unprocessable_entity and return
+    end
+
     holder = current_user.contact
     credential = Credential.where(id: params[:id]).first
     return head(:forbidden) if credential.holder != holder
@@ -99,7 +113,7 @@ class MyCredentialsController < CredentialsController
   private
 
   def retrieve_or_build_authenticators_from_params
-    authenticator_params = params[:authenticators].split("\n")
+    authenticator_params = params[:authenticators].split("\n").reject(&:empty?)
     authenticator_params.map do |row|
       ne = NameAndEmail.parse(row)
       Contact.retrieve_or_build(name: ne.name, email: ne.email)

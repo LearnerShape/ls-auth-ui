@@ -69,3 +69,6 @@ input[type='file']:hover { cursor: pointer }
 .ordered-credential .details p { margin: 0em; padding: 0em; padding-bottom: 0.5em; }
 .ordered-credential .details ul { margin: 0em; padding: 0em; list-style-type: none; }
 .ordered-credential .details ul li { margin: 0em; padding: 0em; }
+
+.invalid-border { border: 1px solid red; }
+.invalid-message { color: red; }
