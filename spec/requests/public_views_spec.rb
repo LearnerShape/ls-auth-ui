@@ -24,22 +24,49 @@ RSpec.describe "Public views", type: :request do
     Authentication.create(credential: @credential3, authenticator: @authenticator1, status: "accepted")
   end
 
-  it "creates a public view" do
-    sign_in @user
+  context "create" do
+    before do
+      sign_in @user
+    end
+    describe "unhappy path" do
+      it "doesn't create a view with no credentials selected" do
+        post "/public_views", params: { credentials_to_add: {
+                                          @credential3.id => "",
+                                          @credential2.id => "",
+                                          @credential1.id => ""
+                                        }
+                                      }
+        expect(response).to render_template(:new)
+        expect(PublicView.count).to eq(0)
+      end
+      it "doesn't create a view with non-numeric inputs for credentials" do
+        post "/public_views", params: { credentials_to_add: {
+                                          @credential3.id => "cat",
+                                          @credential2.id => "dog",
+                                          @credential1.id => ""
+                                        }
+                                      }
+        expect(response).to render_template(:new)
+        expect(PublicView.count).to eq(0)
+      end
+    end
+    describe "happy path" do
+      it "creates a public view" do
+        post "/public_views", params: { credentials_to_add: {
+                                          @credential3.id => "1",
+                                          @credential2.id => "",
+                                          @credential1.id => "2"
+                                        }
+                                      }
 
-    post "/public_views", params: { credentials_to_add: {
-                                      @credential3.id => "1",
-                                      @credential2.id => "",
-                                      @credential1.id => "2"
-                                    }
-                                  }
+        expect(PublicView.count).to eq(1)
+        public_view = PublicView.first
 
-    expect(PublicView.count).to eq(1)
-    public_view = PublicView.first
-
-    expect(public_view.credentials).to eq([@credential3.id, @credential1.id])
-    expect(public_view.owner).to eq(@claimant)
-    expect(public_view.uuid).not_to be_blank
+        expect(public_view.credentials).to eq([@credential3.id, @credential1.id])
+        expect(public_view.owner).to eq(@claimant)
+        expect(public_view.uuid).not_to be_blank
+      end
+    end
   end
 
   it "can view a created public view without logging in" do
