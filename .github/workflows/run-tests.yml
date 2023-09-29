@@ -1,0 +1,19 @@
+name: Run tests
+on: [push, pull_request]
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Run tests
+        run: bundle exec rspec -f j -o tmp/rspec_results.json -f d
+      - name: RSpec Report
+        uses: SonicGarden/rspec-report-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          json-path: tmp/rspec_results.json
+        if: always()
