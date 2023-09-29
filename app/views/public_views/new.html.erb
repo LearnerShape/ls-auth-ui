@@ -6,6 +6,10 @@
 
 <p>For instance, if you have credential1 / credential2 / credential3, and you want a public view with credential3 followed by credential1, put a "1" beside credential3 and a "2" beside credential1, and leave credential2 blank.</p>
 
+<% if @invalid_request %>
+    <div class="flash-error"><%= @error %></div>
+<% end %>
+
 <%= form_with url: public_views_path do |form| %>
     <%=  form.fields_for :credentials_to_add do |form| %>
 

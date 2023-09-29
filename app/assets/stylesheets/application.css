@@ -72,3 +72,10 @@ input[type='file']:hover { cursor: pointer }
 
 .invalid-border { border: 1px solid red; }
 .invalid-message { color: red; }
+
+.flash-error {
+  margin: 1em;
+  border: 1px solid red;
+  padding: 1em;
+  color: red;
+}
