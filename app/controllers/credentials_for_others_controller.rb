@@ -3,6 +3,12 @@ class CredentialsForOthersController < CredentialsController
   end
 
   def create
+    @invalid_name = params[:name].blank?
+    @invalid_participants = NameAndEmail.invalid?(params[:participants])
+    if @invalid_name || @invalid_participants
+      render :new, status: :unprocessable_entity and return
+    end
+
     creator = current_user.contact
     participants = participants_from_params
     skill = Skill.create(name: params[:name],
@@ -44,6 +50,14 @@ class CredentialsForOthersController < CredentialsController
   end
 
   def add_participants
+    @invalid_participants = NameAndEmail.invalid?(params[:participants])
+    if @invalid_participants
+      creator = current_user.contact
+      @program = Program.where(id: params[:id]).first
+      return head(:forbidden) if @program.creator != creator
+      render :add_participants_form, status: :unprocessable_entity and return
+    end
+
     creator = current_user.contact
     program = Program.where(id: params[:id]).first
     return head(:forbidden) if program.creator != creator
@@ -101,7 +115,7 @@ class CredentialsForOthersController < CredentialsController
   private
 
   def participants_from_params
-    participant_params = params[:participants].split("\n")
+    participant_params = params[:participants].split("\n").reject(&:empty?)
     participant_params.map do |row|
       ne = NameAndEmail.parse(row)
       Contact.retrieve_or_build(name: ne.name, email: ne.email)

@@ -19,7 +19,10 @@
         <%= form_with url: add_participants_credentials_for_other_path do |form| %>
             <div class="field">
                 <%= form.label :participants, "Participants, one per line, as 'name <email>':" %><br/>
-                <%= form.text_area :participants %>
+                <%= form.text_area :participants, class: "#{'invalid-border' if @invalid_participants}", value: params[:participants] %>
+                <% if @invalid_participants %>
+                    <div class="invalid-message">Participants must be one per line in the form 'name &lt;email&gt;'</div>
+                <% end  %>
             </div>
 
 
