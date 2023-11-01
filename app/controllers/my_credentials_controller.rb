@@ -10,7 +10,6 @@ class MyCredentialsController < CredentialsController
     end
 
     holder = current_user.contact
-    authenticators = retrieve_or_build_authenticators_from_params
 
     skill = Skill.create(name: params[:name],
                          skill_type: params[:type],
@@ -49,7 +48,7 @@ class MyCredentialsController < CredentialsController
 
     build_authentications_for_credential(holder: holder,
                                          credential: credential,
-                                         authenticators: authenticators)
+                                         authenticators: authenticators_from_params)
 
     if credential.authentications.is_accepted.any?
       credential.mark_authenticated
@@ -82,10 +81,9 @@ class MyCredentialsController < CredentialsController
     credential = Credential.where(id: params[:id]).first
     return head(:forbidden) if credential.holder != holder
 
-    authenticators = retrieve_or_build_authenticators_from_params
     build_authentications_for_credential(holder: holder,
                                          credential: credential,
-                                         authenticators: authenticators)
+                                         authenticators: authenticators_from_params)
 
     redirect_to action: :index
   end
@@ -112,12 +110,8 @@ class MyCredentialsController < CredentialsController
 
   private
 
-  def retrieve_or_build_authenticators_from_params
-    authenticator_params = params[:authenticators].split("\n").reject(&:empty?)
-    authenticator_params.map do |row|
-      ne = NameAndEmail.parse(row)
-      Contact.retrieve_or_build(name: ne.name, email: ne.email)
-    end
+  def authenticators_from_params
+    NameAndEmail.retrieve_or_build_contacts(params[:authenticators])
   end
 
   def build_authentications_for_credential(holder:, credential:, authenticators:)

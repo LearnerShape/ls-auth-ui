@@ -10,7 +10,6 @@ class CredentialsForOthersController < CredentialsController
     end
 
     creator = current_user.contact
-    participants = participants_from_params
     skill = Skill.create(name: params[:name],
                          skill_type: params[:type],
                          description: params[:description])
@@ -32,7 +31,7 @@ class CredentialsForOthersController < CredentialsController
 
     credentials_from_participants(creator: creator,
                                   skill: skill,
-                                  participants: participants)
+                                  participants: participants_from_params)
 
     redirect_to action: :index
   end
@@ -63,11 +62,9 @@ class CredentialsForOthersController < CredentialsController
     return head(:forbidden) if program.creator != creator
 
     skill = program.skill
-    participants = participants_from_params
-
     credentials_from_participants(creator: creator,
                                   skill: skill,
-                                  participants: participants)
+                                  participants: participants_from_params)
 
     redirect_to action: :index
   end
@@ -115,11 +112,7 @@ class CredentialsForOthersController < CredentialsController
   private
 
   def participants_from_params
-    participant_params = params[:participants].split("\n").reject(&:empty?)
-    participant_params.map do |row|
-      ne = NameAndEmail.parse(row)
-      Contact.retrieve_or_build(name: ne.name, email: ne.email)
-    end
+    NameAndEmail.retrieve_or_build_contacts(params[:participants])
   end
 
   def credentials_from_participants(creator:, skill:, participants:)
