@@ -6,13 +6,17 @@ RSpec.describe "My credentials", type: :request do
                                      email: "anna@example.com",
                                      password: "calufrax")
   end
+
+  # Oddly, the app uses '\r\n' as line break in the create case,
+  # but '\n' as the line break in the add authenticators case.
+  # Tests modified to reflect this pending further investigation
   context "create" do
     describe "unhappy path" do
       it "doesn't create a credential without name" do
         post "/my_credentials", params: { name: '',
                                           type: 'GeneralCredential',
                                           description: 'description',
-                                          authenticators: "Beth Example <beth@example.com>\nBodil Example <bodil@example.com>" }
+                                          authenticators: "Beth Example <beth@example.com>\r\nBodil Example <bodil@example.com>" }
         expect(response).to render_template(:new)
         expect(Contact.count).to eq(1)
         expect(Skill.count).to eq(0)
@@ -21,7 +25,7 @@ RSpec.describe "My credentials", type: :request do
         post "/my_credentials", params: { name: 'name',
                                           type: 'GeneralCredential',
                                           description: 'description',
-                                          authenticators: "Beth Example <beth@example.com>\nBodil Example <bodil@example.com" }
+                                          authenticators: "Beth Example <beth@example.com>\r\nBodil Example <bodil@example.com" }
         expect(response).to render_template(:new)
         expect(Contact.count).to eq(1)
         expect(Skill.count).to eq(0)
@@ -32,7 +36,7 @@ RSpec.describe "My credentials", type: :request do
         post "/my_credentials", params: { name: 'name',
                                           type: 'GeneralCredential',
                                           description: 'description',
-                                          authenticators: "Beth Example <beth@example.com>\nBodil Example <bodil@example.com>" }
+                                          authenticators: "Beth Example <beth@example.com>\r\nBodil Example <bodil@example.com>" }
         expect(Contact.count).to eq(3)
 
         expect(Skill.count).to eq(1)
@@ -63,7 +67,7 @@ RSpec.describe "My credentials", type: :request do
       post "/my_credentials", params: { name: 'name',
                                         type: 'GeneralCredential',
                                         description: 'description',
-                                        authenticators: "Beth Example <beth@example.com>\nBodil Example <bodil@example.com>" }
+                                        authenticators: "Beth Example <beth@example.com>\r\nBodil Example <bodil@example.com>" }
       @credential = Credential.first
     end
     describe "unhappy path" do
@@ -75,10 +79,10 @@ RSpec.describe "My credentials", type: :request do
     end
     describe "happy path" do
       it "adds authenticators" do
-        post "/my_credentials/#{@credential.id}/add_authenticators", params: { authenticators: "Wendy Well-formed <wendy@example.com>"}
-        expect(Contact.count).to eq(4)
+        post "/my_credentials/#{@credential.id}/add_authenticators", params: { authenticators: "Wendy Well-formed <wendy@example.com>\nWanda Well-formed <wanda@example.com>"}
+        expect(Contact.count).to eq(5)
         expect(Credential.count).to eq(1)
-        invited_authenticators = Contact.where(email: 'wendy@example.com')
+        invited_authenticators = Contact.where(email: %w[wendy@example.com wanda@example.com])
         invited_authentications = Authentication.where(authenticator: invited_authenticators)
         expect(invited_authentications.map(&:status).uniq).to eq(['invited'])
       end

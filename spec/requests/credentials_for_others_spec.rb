@@ -7,13 +7,16 @@ RSpec.describe "Credentials for others", type: :request do
                                      password: "calufrax")
   end
 
+  # Oddly, the app uses '\r\n' as line break in the create case,
+  # but '\n' as the line break in the add participants case.
+  # Tests modified to reflect this pending further investigation
   context "create" do
     describe "unhappy path" do
       it "doesn't create a credential without name" do
         post "/credentials_for_others", params: { name: '',
                                                   type: 'EducationCredential',
                                                   description: 'description',
-                                                  participants: "Beth Student <beth.student@example.com>\nBodil Student <bodil.student@example.com>" }
+                                                  participants: "Beth Student <beth.student@example.com>\r\nBodil Student <bodil.student@example.com>" }
         expect(response).to render_template(:new)
         expect(Contact.count).to eq(1)
         expect(Skill.count).to eq(0)
@@ -22,7 +25,7 @@ RSpec.describe "Credentials for others", type: :request do
         post "/credentials_for_others", params: { name: 'name',
                                                   type: 'EducationCredential',
                                                   description: 'description',
-                                                  participants: "Beth Student <beth.student@example.com>\nBodil Student <bodil.student@example.com" }
+                                                  participants: "Beth Student <beth.student@example.com>\r\nBodil Student <bodil.student@example.com" }
         expect(response).to render_template(:new)
         expect(Contact.count).to eq(1)
         expect(Skill.count).to eq(0)
@@ -33,7 +36,7 @@ RSpec.describe "Credentials for others", type: :request do
         post "/credentials_for_others", params: { name: 'name',
                                                   type: 'EducationCredential',
                                                   description: 'description',
-                                                  participants: "Beth Student <beth.student@example.com>\nBodil Student <bodil.student@example.com>" }
+                                                  participants: "Beth Student <beth.student@example.com>\r\nBodil Student <bodil.student@example.com>" }
 
         expect(Contact.count).to eq(3)
         expect(Skill.count).to eq(1)
@@ -70,7 +73,7 @@ RSpec.describe "Credentials for others", type: :request do
       post "/credentials_for_others", params: { name: 'name',
                                                 type: 'EducationCredential',
                                                 description: 'description',
-                                                participants: "Beth Student <beth.student@example.com>\nBodil Student <bodil.student@example.com>" }
+                                                participants: "Beth Student <beth.student@example.com>\r\nBodil Student <bodil.student@example.com>" }
       @program = Program.first
     end
     describe "unhappy path" do
@@ -82,16 +85,15 @@ RSpec.describe "Credentials for others", type: :request do
     end
     describe "happy path" do
       it "adds participants" do
-        post "/credentials_for_others/#{@program.id}/add_participants", params: { participants: "Wendy Well-formed <wendy@example.com>"}
-        expect(Contact.count).to eq(4)
-        expect(Credential.count).to eq(3)
-        participants = Contact.where(email: ['beth.student@example.com', 'bodil.student@example.com', 'wendy@example.com'])
+        post "/credentials_for_others/#{@program.id}/add_participants", params: { participants: "Wendy Well-formed <wendy@example.com>\nWanda Well-formed <wanda@example.com>"}
+        expect(Contact.count).to eq(5)
+        expect(Credential.count).to eq(4)
+        participants = Contact.where(email: ['beth.student@example.com', 'bodil.student@example.com', 'wendy@example.com', 'wanda@example.com'])
         credentials = Credential.all
         skill = Skill.first
         expect(credentials.map(&:holder)).to match_array(participants)
         expect(credentials.map(&:skill).uniq).to eq([skill])
         expect(credentials.map(&:status).uniq).to eq(['authenticated'])
-
       end
     end
   end
