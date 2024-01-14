@@ -33,7 +33,7 @@ class PublicViewsController < ApplicationController
 
   def index
     holder = current_user.contact
-    @public_views = PublicView.where(owner: holder)
+    @public_views = PublicView.where(owner: holder).order("created_at desc")
   end
 
   def mark_active

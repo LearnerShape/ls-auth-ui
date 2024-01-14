@@ -4,7 +4,7 @@
 
 <ul>
     <% @public_views.each do |public_view| %>
-        <li><b>Link:</b> <%= link_to "/public_views/#{public_view.uuid}", public_view_path(id: public_view.uuid) %> (<b>status:</b> <%= public_view.status %>)<br/>
+        <li><b>Link:</b> <%= link_to "/public_views/#{public_view.uuid}", public_view_path(id: public_view.uuid) %> (<b>Status:</b> <%= public_view.status %>) (<b>Date Created</b>: <%= public_view.created_at.strftime("%Y-%m-%d") %>)<br/>
             <b>Credentials:</b>
             <ul class="compressed">
                 <% public_view.credential_skill_names_for_index.each do |name| %>
