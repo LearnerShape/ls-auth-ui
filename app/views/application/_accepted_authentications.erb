@@ -1,11 +1,27 @@
-<p><b>Authentications:</b>
-    <ul>
-        <% credential.authentications.is_accepted.each do |authentication| %>
-            <li>
-                <%= authentication.authenticator.email %> |
-                <%= authentication.status %> |
-                <%= render "explorer_link", id: authentication.submission_transaction_id %>
-            </li>
-        <% end %>
-    </ul>
+<% authentications = credential.authentications.is_accepted.order("created_at asc") %>
+<% issuer = authentications.first %>
+<% self_issued = issuer.authenticator_id == credential.holder_id %>
+
+<% non_issuer_authentications = authentications.drop(1) %>
+
+<% if self_issued %>
+    <p><b>Issuer (Self):</b><br>
+<% else %>
+    <p><b>Issuer:</b><br>
+<% end %>
+<%= issuer.authenticator.email %> |
+<%= issuer.status %> |
+<%= render "explorer_link", id: issuer.submission_transaction_id %>
 </p>
+
+
+<% if non_issuer_authentications.any? %>
+    <p><b>Authentications:</b><br>
+        <% non_issuer_authentications.each do |authentication| %>
+            <%= authentication.authenticator.email %> |
+            <%= authentication.status %> |
+            <%= render "explorer_link", id: authentication.submission_transaction_id %>
+            <br>
+        <% end %>
+    </p>
+<% end %>
